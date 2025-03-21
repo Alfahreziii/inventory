@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class NamabahanController extends Controller
 {
@@ -32,7 +33,12 @@ class NamabahanController extends Controller
                 ->addColumn('action', function ($row) {
                     $editUrl = route('edit-namabahan', ['id' => $row->id]);
                     $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold text-green-500 mr-3">Edit</a>';
-                    $deleteBtn = '<button class="delete-btn text-sm font-bold text-red-500" data-id="'.$row->id.'">Delete</button>';
+
+                    $deleteBtn = '';
+                    if (Gate::allows('admin-access')) {
+                        $deleteBtn = '<button class="delete-btn text-sm font-bold mr-3" data-id="'.$row->id.'">Delete</button>';
+                    }
+
                     return $editBtn . $deleteBtn;
                 })
                 ->rawColumns(['action'])

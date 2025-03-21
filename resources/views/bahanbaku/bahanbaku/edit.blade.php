@@ -13,11 +13,17 @@
         <form method="post" action="{{ route('update-bahanbaku',['id' => $data->id]) }}" class="mt-6 space-y-6">
             @csrf
             @method('PUT')
-            <div class="w-1/2">
-                <x-input-label for="nama_bahan" :value="__('Nama Bahan')" />
-                <x-text-input id="nama_bahan" name="nama_bahan" type="text" class="mt-1 block w-full" required autofocus autocomplete="nama_bahan" value="{{ $data->nama_bahan }}"/>
-                <x-input-error class="mt-2" :messages="$errors->get('nama_bahan')" />
-            </div>
+            <label for="id_bahan" class="block text-sm font-medium text-gray-700">Nama Bahan</label>
+            <select id="id_bahan" name="id_bahan" class="w-1/2 select2" required>
+                <option value="" disabled selected hidden>Cari bahan...</option>
+                @foreach ($namabahan as $d)
+                    {{-- <option value="{{ $d->id }}">{{ $d->nama_bahan }}</option> --}}
+                    <option value="{{ $d->id }}" {{ $data->id == $d->id ? 'selected' : '' }}>
+                        {{ $d->nama_bahan }}
+                    </option>
+                @endforeach
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('id_bahan')" />
 
 
             <div class="w-1/2">
@@ -59,5 +65,14 @@
                 <a href="{{ route('dashboard') }}" class="flex mt-3 justify-center items-center text-lg py-1 font-semibold rounded text-white bg-red-500 w-1/2">Cancel</a>
             </div>
         </form>
+
+        <script>
+            $(document).ready(function() {
+                $('#id_bahan').select2({
+                    placeholder: "Cari bahan...",
+                    allowClear: true
+                });
+            });
+        </script>
 
 @endsection

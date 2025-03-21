@@ -10,43 +10,41 @@
         <p class="mt-1 text-sm text-gray-600">
             Create a task for your cluster!!
         </p>
-        <form method="post" action="{{ route('tambah-bahanbaku') }}" class="mt-6 space-y-6">
+        <form method="post" action="{{ route('tambah-bahanbaku') }}" class="mt-6">
             @csrf
-            <div class="w-1/2">
-                <x-input-label for="nama_bahan" :value="__('Nama Bahan')" />
-                <x-text-input id="nama_bahan" name="nama_bahan" type="text" class="mt-1 block w-full" required autofocus autocomplete="nama_bahan"/>
-                <x-input-error class="mt-2" :messages="$errors->get('nama_bahan')" />
-            </div>
+            <label for="id_bahan" class="block text-sm font-medium text-gray-700">Nama Bahan</label>
+            <select id="id_bahan" name="id_bahan" class="w-1/2 select2" required>
+                <option value="" disabled selected hidden>Cari bahan...</option>
+                @foreach ($data as $d)
+                    <option value="{{ $d->id }}">{{ $d->nama_bahan }}</option>
+                @endforeach
+            </select>
+            <x-input-error class="mt-2" :messages="$errors->get('id_bahan')" />
 
 
-            <div class="w-1/2">
+
+            <div class="w-1/2 my-5">
                 <x-input-label for="tgl_masuk" :value="__('Tanggal Masuk')" />
                 <x-text-input id="tgl_masuk" name="tgl_masuk" type="date" class="mt-1 block w-full" required autocomplete="tgl_masuk" />
                 <x-input-error class="mt-2" :messages="$errors->get('tgl_masuk')" />
             </div>
-            <div class="w-1/2">
+            <div class="w-1/2 my-5">
                 <x-input-label for="tgl_kadaluarsa" :value="__('Tanggal Kadaluarsa')" />
                 <x-text-input id="tgl_kadaluarsa" name="tgl_kadaluarsa" type="date" class="mt-1 block w-full" required autocomplete="tgl_kadaluarsa" />
                 <x-input-error class="mt-2" :messages="$errors->get('tgl_kadaluarsa')" />
             </div>
 
-            <div class="w-1/2">
-                <x-input-label for="harga" :value="__('Harga')" />
-                <x-text-input id="harga" name="harga" type="text" class="mt-1 block w-full" required autofocus autocomplete="harga" placeholder="Masukkan Angka"/>
-                <x-input-error class="mt-2" :messages="$errors->get('harga')" />
-            </div>
-
-            <div class="w-1/2">
+            <div class="w-1/2 my-5">
                 <x-input-label for="sisa" :value="__('Jumlah Bahan')" />
                 <x-text-input id="sisa" name="sisa" type="text" class="mt-1 block w-full" required autofocus autocomplete="sisa" placeholder="Masukkan Angka"/>
                 <x-input-error class="mt-2" :messages="$errors->get('sisa')" />
             </div>
-            <div class="w-1/2">
+            <div class="w-1/2 my-5">
                 <x-input-label for="demand" :value="__('Demand')" />
                 <x-text-input id="demand" name="demand" type="text" class="mt-1 block w-full" required autofocus autocomplete="demand" placeholder="Masukkan Angka"/>
                 <x-input-error class="mt-2" :messages="$errors->get('demand')" />
             </div>
-            <div class="w-1/2">
+            <div class="w-1/2 my-5">
                 <x-input-label for="nilai_x" :value="__('Nilai X')" />
                 <x-text-input id="nilai_x" name="nilai_x" type="text" class="mt-1 block w-full" required autofocus autocomplete="nilai_x" placeholder="Masukkan Angka"/>
                 <x-input-error class="mt-2" :messages="$errors->get('nilai_x')" />
@@ -58,5 +56,14 @@
                 <a href="{{ route('dashboard') }}" class="flex mt-3 justify-center items-center text-lg py-1 font-semibold rounded text-white bg-red-500 w-1/2">Cancel</a>
             </div>
         </form>
+
+        <script>
+            $(document).ready(function() {
+                $('#id_bahan').select2({
+                    placeholder: "Cari bahan...",
+                    allowClear: true
+                });
+            });
+        </script>
 
 @endsection

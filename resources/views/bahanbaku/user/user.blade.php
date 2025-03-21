@@ -1,29 +1,25 @@
 @extends('bahanbaku/layout/bahanbaku')
 @section('content_bahanbaku')
-<h1 class="font-bold text-slate-600 text-3xl">BAHAN BAKU</h1>
+<h1 class="font-bold text-slate-600 text-3xl">RIWAYAT LOGIN</h1>
 <div class="flex  text-sm font-normal items-center mt-1">
     <a href="#" class="text-slate-500">home</a>
     <i data-feather="chevron-right" class="text-gray-400 font-bold"></i>
-    <a href="#" class="text-slate-400">Bahan Baku</a>
+    <a href="#" class="text-slate-400">Riwayat Login</a>
 </div>
 
 {{-- Task --}}
 <div class="garis mt-10 mb-3">
-    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">BAHAN BAKU</div>
+    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">RIWAYAT LOGIN</div>
 </div>
-
-<a href="{{ route('buat-bahanbaku') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-green-500">
-    <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH BAHAN BAKU
-</a>
 
 <div class="relative overflow-x-auto overflow-y-hidden scrollbar-hide pb-5">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
-                <th class="py-3" scope="col">Tanggal Kadaluarsa</th>
-                <th class="py-3" scope="col">Tanggal Masuk</th>
-                <th class="py-3" scope="col">Aksi</th>
+                <th class="px-6 py-3" scope="col">Nama</th>
+                <th class="py-3" scope="col">Email</th>
+                <th class="py-3" scope="col">Status</th>
+                <th class="py-3" scope="col">Terakhir Login</th>
             </tr>
         </thead>
         <tbody>
@@ -39,19 +35,19 @@ $(document).ready(function() {
     $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('table_bahanbaku') }}",
+        ajax: "{{ route('table_riwayatlogin') }}",
+        ordering: true, // Pastikan fitur sorting aktif
         columns: [
-            { data: 'nama_bahan', name: 'nama_bahan' },
-            { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
-            { data: 'tgl_masuk', name: 'tgl_masuk' },
-            { data: 'action', name: 'action', orderable: false, searchable: false }
+            { data: 'name', name: 'name', orderable: false },
+            { data: 'email', name: 'email', orderable: false },
+            { data: 'status', name: 'status', orderable: false },
+            { data: 'last_login_at', name: 'last_login_at', orderable: true } // Sorting hanya di kolom ini
         ],
         dom: '<"flex justify-between items-center mb-4"<"w-full flex justify-start space-x-4"f l>>rt<"flex justify-between items-center mt-4"ip>',
         language: {
-            lengthMenu: "",
-            search: "", // Hapus tulisan "Search"
-            searchPlaceholder: "Search", // Tambahkan placeholder
-            lengthMenu: "Tampilkan _MENU_ data"  // Ganti "Show _MENU_ entries"
+            lengthMenu: "Tampilkan _MENU_ data",
+            search: "",
+            searchPlaceholder: "Search"
         },
         drawCallback: function() {
             // Styling untuk search box
@@ -73,67 +69,51 @@ $(document).ready(function() {
             // Styling info jumlah data
             $('.dataTables_info')
                 .addClass('text-gray-600 text-sm');
+
             $('.dataTables_length label').contents().filter(function() {
                 return this.nodeType === 3;
             }).remove();
+
             $('.data-table tbody tr').each(function() {
-                $(this).addClass('bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'); // Styling tambahan
+                $(this).addClass('bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600');
             });
+
             $('.data-table tbody td:nth-child(1)').each(function() {
-                $(this).addClass('px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
+                $(this).addClass('px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
             });
+
             $('.data-table tbody td:nth-child(3)').each(function() {
-                $(this).addClass('flex py-4'); // Tambahkan background dan tengah-kan teks
-            });
-            $('.data-table tbody td:nth-child(4) a').each(function() {
-                $(this).addClass('text-green-500'); // Tambahkan background dan tengah-kan teks
-            });
-            $('.data-table tbody td:nth-child(4) button').each(function() {
-                $(this).addClass('text-red-500'); // Tambahkan background dan tengah-kan teks
-            });
-            $('.data-table tbody td:nth-child(4) .detail').each(function() {
-                $(this).addClass('text-blue-500'); // Tambahkan background dan tengah-kan teks
+                $(this).addClass('flex py-4');
             });
         }
     });
 
-    $(document).on('click', '.delete-btn', function() {
-        var id = $(this).data('id');
-
-        Swal.fire({
-            title: "Apakah Anda yakin?",
-            text: "Data yang dihapus tidak bisa dikembalikan!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ya, hapus!",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                    url: "{{ route('delete-bahanbaku', '') }}/" + id,
-                    type: "DELETE",
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
-                    success: function(response) {
-                        Swal.fire({
-                        title: "Terhapus!",
-                        text: "Data berhasil dihapus.",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    }).then(() => {
-                        location.reload(); // RELOAD SETELAH OK DITEKAN
-                    });
-                    },
-                    error: function() {
-                        Swal.fire("Oops!", "Terjadi kesalahan saat menghapus.", "error");
-                    }
-                });
-            }
-        });
+    // Tambahkan ikon sorting hanya di kolom last_login_at dengan cursor pointer
+    $('table.dataTable thead th').each(function(index) {
+        if (index === 3) { // Indeks kolom last_login_at
+            $(this).css({
+                'position': 'relative',
+                'cursor': 'pointer' // Tambahkan cursor pointer
+            }).append('<span class="sorting-icon" style="position:absolute; right:10px; opacity:0.5;">▼</span>');
+        }
     });
+
+    // Perbarui ikon sorting saat tabel diperbarui
+    $('.data-table').on('draw.dt', function() {
+        $('table.dataTable thead th:eq(3) .sorting-icon').html('▼'); // Default descending
+        $('table.dataTable thead th:eq(3).sorting_asc .sorting-icon').html('▲'); // Ascending
+        $('table.dataTable thead th:eq(3).sorting_desc .sorting-icon').html('▼'); // Descending
+    });
+
+    // Hover effect untuk ikon sorting
+    $('table.dataTable thead th:eq(3)').hover(
+        function() {
+            $(this).find('.sorting-icon').css('opacity', '1');
+        },
+        function() {
+            $(this).find('.sorting-icon').css('opacity', '0.5');
+        }
+    );
 });
 </script>
 @endsection

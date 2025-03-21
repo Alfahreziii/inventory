@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->date('tgl_kadaluarsa');
             $table->date('tgl_masuk');
-            $table->string('nama_bahan');
-            $table->integer('harga');
+            $table->unsignedBigInteger('id_bahan');
+            $table->foreign('id_bahan')->references('id')->on('namabahans')->onDelete('cascade');
             $table->integer('sisa');
             $table->integer('demand');
             $table->integer('biaya_simpan');

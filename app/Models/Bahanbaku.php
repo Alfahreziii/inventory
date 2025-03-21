@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon; // Tambahkan ini
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -12,17 +12,12 @@ class Bahanbaku extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $primaryKey = 'id';
+
     protected $fillable = [
-        'nama_bahan',
         'tgl_kadaluarsa',
         'tgl_masuk',
-        'harga',
+        'id_bahan',
         'sisa',
         'demand',
         'biaya_simpan',
@@ -30,13 +25,15 @@ class Bahanbaku extends Model
         'harga_total',
         'nilai_x',
     ];
+
     // Akses format tanggal untuk tgl_kadaluarsa
     public function getTglKadaluarsaAttribute($value)
     {
         return Carbon::parse($value)->translatedFormat('d F Y');
     }
-                // Akses format tanggal untuk tgl_masuk
-     public function getTglMasukAttribute($value)
+
+    // Akses format tanggal untuk tgl_masuk
+    public function getTglMasukAttribute($value)
     {
         return Carbon::parse($value)->translatedFormat('d F Y');
     }

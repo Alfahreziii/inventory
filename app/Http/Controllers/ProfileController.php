@@ -9,10 +9,37 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
+use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
+    public function index(){
+        $top = DB::table('users')
+        ->select('users.name')
+        ->where('users.id', '=', Auth::user()->id)
+        ->first();
+
+        $data = DB::table('users')
+        ->select('name', 'email', 'last_login_at', 'status')
+        ->get();
+
+        return view('bahanbaku/user/user', compact('top','data'));
+    }
+
+    public function datatable_riwayatlogin(Request $request){
+        if ($request->ajax()) {
+            $data = DB::table('users')
+            ->select('name', 'email', 'last_login_at', 'status')
+            ->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return response()->json(['message' => 'Invalid request'], 400);
+    }
     /**
      * Display the user's profile form.
      */

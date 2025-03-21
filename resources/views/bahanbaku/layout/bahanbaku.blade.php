@@ -9,6 +9,11 @@
         <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- Select2 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
+        <!-- Select2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
         <title>Laravel</title>
         <!-- Styles -->
         @vite('resources/css/app.css', 'resources/js/app.js')
@@ -36,7 +41,12 @@
                     </li>
                     <li class="relative whitespace-nowrap m-0">
                         <a href="{{ route('namabahan') }}" class="nav-item {{ set_active(['namabahan']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
-                            <i data-feather="book-open" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Nama Bahan</span>
+                            <i data-feather="archive" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Nama Bahan</span>
+                        </a>
+                    </li>
+                    <li class="relative whitespace-nowrap m-0">
+                        <a href="{{ route('user') }}" class="nav-item {{ set_active(['user']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
+                            <i data-feather="book-open" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Riwayat Login</span>
                         </a>
                     </li>
                 </ul>

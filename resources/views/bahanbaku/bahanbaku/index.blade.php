@@ -11,10 +11,11 @@
 <div class="garis mt-10 mb-3">
     <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">BAHAN BAKU</div>
 </div>
-
+@can('admin-access')
 <a href="{{ route('buat-bahanbaku') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-green-500">
     <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH BAHAN BAKU
 </a>
+@endcan
 
 <div class="relative overflow-x-auto overflow-y-hidden scrollbar-hide pb-5">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
