@@ -22,6 +22,7 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
+                <th class="py-3" scope="col">Jumlah Bahan</th>
                 <th class="py-3" scope="col">Tanggal Kadaluarsa</th>
                 <th class="py-3" scope="col">Tanggal Masuk</th>
                 <th class="py-3" scope="col">Aksi</th>
@@ -43,6 +44,7 @@ $(document).ready(function() {
         ajax: "{{ route('table_bahanbaku') }}",
         columns: [
             { data: 'nama_bahan', name: 'nama_bahan' },
+            { data: 'sisa', name: 'sisa' },
             { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
             { data: 'tgl_masuk', name: 'tgl_masuk' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -83,16 +85,16 @@ $(document).ready(function() {
             $('.data-table tbody td:nth-child(1)').each(function() {
                 $(this).addClass('px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(3)').each(function() {
+            $('.data-table tbody td:nth-child(4)').each(function() {
                 $(this).addClass('flex py-4'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(4) a').each(function() {
+            $('.data-table tbody td:nth-child(5) a').each(function() {
                 $(this).addClass('text-green-500'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(4) button').each(function() {
+            $('.data-table tbody td:nth-child(5) button').each(function() {
                 $(this).addClass('text-red-500'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(4) .detail').each(function() {
+            $('.data-table tbody td:nth-child(5) .detail').each(function() {
                 $(this).addClass('text-blue-500'); // Tambahkan background dan tengah-kan teks
             });
         }

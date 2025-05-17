@@ -1,22 +1,11 @@
 <?php
 
-use App\Models\Karyawan;
-use App\Models\Bahanbaku;
-use App\Models\Namabahan;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SpvController;
-use App\Http\Controllers\TaskController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\LemburController;
-use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\KaryawanController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\BahanbakuController;
-use App\Http\Controllers\ClassroomController;
-use App\Http\Controllers\DepartmenController;
-use App\Http\Controllers\NamabahanController;
 use Pest\Plugins\Profile;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\BahanbakuController;
+use App\Http\Controllers\NamabahanController;
+use App\Http\Controllers\PengeluaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,12 +31,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-        //lembur
-        Route::get('/lembur', [LaporanController::class, 'index'])->name('lembur');
-        Route::post('/cek-lembur', [LaporanController::class, 'cekLembur'])->name('cekLembur');
-        Route::get('/lemburs', function () {
-            return view('lembur'); // Menampilkan halaman form cek lembur
-        });
         Route::middleware(['auth', 'status:admin'])->group(function () {
             //bahanbaku
             Route::get('/buat-bahanbaku', [BahanbakuController::class, 'create'])->name('buat-bahanbaku');
@@ -65,6 +48,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/bahanbaku/detail/{id}', [BahanbakuController::class, 'detail'])->name('detail-bahanbaku');
         Route::put('/bahanbaku/update/{id}', [BahanbakuController::class, 'update'])->name('update-bahanbaku');
 
+        //riwayat pengeluaran
+        Route::get('/riwayat-pengeluaran',[PengeluaranController::class, 'index'])->name('riwayat-pengeluaran');
+        Route::get('/buat-pengeluaran', [PengeluaranController::class, 'create'])->name('buat-pengeluaran');
+        Route::post('/tambah-pengeluaran', [PengeluaranController::class, 'store'])->name('tambah-pengeluaran');
+        Route::get('/riwayat-pengeluaran/edit/{id}', [PengeluaranController::class, 'edit'])->name('edit-riwayatpengeluaran');
+
         //nama bahan
         Route::get('/namabahan',[NamabahanController::class, 'index'])->name('namabahan');
         Route::get('/namabahan/edit/{id}', [NamabahanController::class, 'edit'])->name('edit-namabahan');
@@ -72,11 +61,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/namabahan/update/{id}', [NamabahanController::class, 'update'])->name('update-namabahan');
 
         // datatables
-        Route::get('/table_kategori',[KategoriController::class, 'datatable_kategori'])->name('table_kategori');
-        Route::get('/table_karyawan',[KaryawanController::class, 'datatable_karyawan'])->name('table_karyawan');
-        Route::get('/table_lembur',[LaporanController::class, 'datatable_lembur'])->name('table_lembur');
         Route::get('/table_bahanbaku',[BahanbakuController::class, 'datatable_bahanbaku'])->name('table_bahanbaku');
         Route::get('/table_namabahan',[NamabahanController::class, 'datatable_namabahan'])->name('table_namabahan');
+        Route::get('/table_riwayatpengeluaran',[PengeluaranController::class, 'datatable_riwayatpengeluaran'])->name('table_riwayatpengeluaran');
         Route::get('/table_riwayatlogin',[ProfileController::class, 'datatable_riwayatlogin'])->name('table_riwayatlogin');
 
 });

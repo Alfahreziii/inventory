@@ -1,31 +1,29 @@
-@extends('lembur/layout/lembur')
-@section('content_lembur')
-
-<h1 class="font-bold text-slate-600 text-3xl">Laporan</h1>
+@extends('bahanbaku/layout/bahanbaku')
+@section('content_bahanbaku')
+<h1 class="font-bold text-slate-600 text-3xl">BAHAN BAKU</h1>
 <div class="flex  text-sm font-normal items-center mt-1">
     <a href="#" class="text-slate-500">home</a>
     <i data-feather="chevron-right" class="text-gray-400 font-bold"></i>
-    <a href="#" class="text-slate-400">laporan</a>
+    <a href="#" class="text-slate-400">Bahan Baku</a>
 </div>
 
 {{-- Task --}}
 <div class="garis mt-10 mb-3">
-    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">Laporan</div>
+    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">BAHAN BAKU</div>
 </div>
-
-<a href="{{ route('buat-laporan') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-green-500">
-    <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH LAPORAN
+@can('admin-access')
+<a href="{{ route('buat-pengeluaran') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-green-500">
+    <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH RIWAYAT PENGELUARAN
 </a>
+@endcan
 
-<div class="relative ">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table overflow-x-auto shadow-md">
+<div class="relative overflow-x-auto overflow-y-hidden scrollbar-hide pb-5">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th class="px-6 py-3" scope="col">Nama Karyawan</th>
-                <th class="py-3" scope="col">Hari Lembur</th>
-                <th class="py-3" scope="col">Jam Kerja/Hari</th>
-                <th class="py-3" scope="col">Jumlah Makan</th>
-                <th class="py-3" scope="col">Aksi</th>
+                <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
+                <th class="py-3" scope="col">Jumlah Bahan Keluar</th>
+                <th class="py-3" scope="col">Tanggal Keluar</th>
             </tr>
         </thead>
         <tbody>
@@ -41,15 +39,13 @@ $(document).ready(function() {
     $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('table_laporan') }}",
+        ajax: "{{ route('table_riwayatpengeluaran') }}",
         columns: [
-            { data: 'nama_karyawan', name: 'nama_karyawan' },
-            { data: 'hari_lembur', name: 'hari_lembur' },
-            { data: 'jam_kerja', name: 'jam_kerja' },
-            { data: 'jml_makan', name: 'jml_makan' },
-            { data: 'action', name: 'action', orderable: false, searchable: false }
+            { data: 'nama_bahan', name: 'nama_bahan' },
+            { data: 'jumlah', name: 'jumlah' },
+            { data: 'tgl_keluar', name: 'tgl_keluar' },
         ],
-        dom: '<"flex justify-between items-center mb-4"lf>rt<"flex justify-between items-center mt-4"ip>',
+        dom: '<"flex justify-between items-center mb-4"<"w-full flex justify-start space-x-4"f l>>rt<"flex justify-between items-center mt-4"ip>',
         language: {
             lengthMenu: "",
             search: "", // Hapus tulisan "Search"
@@ -85,8 +81,17 @@ $(document).ready(function() {
             $('.data-table tbody td:nth-child(1)').each(function() {
                 $(this).addClass('px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(3)').each(function() {
+            $('.data-table tbody td:nth-child(4)').each(function() {
                 $(this).addClass('flex py-4'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(5) a').each(function() {
+                $(this).addClass('text-green-500'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(5) button').each(function() {
+                $(this).addClass('text-red-500'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(5) .detail').each(function() {
+                $(this).addClass('text-blue-500'); // Tambahkan background dan tengah-kan teks
             });
         }
     });
@@ -106,7 +111,7 @@ $(document).ready(function() {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "{{ route('delete-laporan', '') }}/" + id,
+                    url: "{{ route('delete-bahanbaku', '') }}/" + id,
                     type: "DELETE",
                     data: {
                         _token: "{{ csrf_token() }}"

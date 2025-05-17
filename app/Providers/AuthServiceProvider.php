@@ -27,9 +27,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin-access', function ($user) {
             return $user->status === 'admin';
         });
-
-        Gate::define('spv-access', function ($user) {
-            return $user->status === 'spv';
-        });
     }
 }

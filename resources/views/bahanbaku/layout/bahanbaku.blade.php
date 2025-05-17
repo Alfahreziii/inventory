@@ -45,6 +45,11 @@
                         </a>
                     </li>
                     <li class="relative whitespace-nowrap m-0">
+                        <a href="{{ route('riwayat-pengeluaran') }}" class="nav-item {{ set_active(['riwayat-pengeluaran']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
+                            <i data-feather="archive" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Riwayat Pengeluaran</span>
+                        </a>
+                    </li>
+                    <li class="relative whitespace-nowrap m-0">
                         <a href="{{ route('user') }}" class="nav-item {{ set_active(['user']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
                             <i data-feather="book-open" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Riwayat Login</span>
                         </a>

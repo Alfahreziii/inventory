@@ -26,8 +26,8 @@ class BahanbakuController extends Controller
     {
         if ($request->ajax()) {
             $data = Bahanbaku::join('namabahans', 'bahanbakus.id_bahan', '=', 'namabahans.id')
-                ->select('bahanbakus.id', 'tgl_kadaluarsa', 'tgl_masuk', 'nama_bahan', 'harga',
-                    'sisa', 'demand', 'biaya_simpan', 'biaya_pesan', 'harga_total')
+                ->select('bahanbakus.id', 'tgl_kadaluarsa', 'tgl_masuk', 'nama_bahan',
+                    'sisa')
                 ->get();
 
             return DataTables::of($data)

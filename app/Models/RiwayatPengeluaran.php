@@ -2,23 +2,27 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Karyawan extends Model
+class RiwayatPengeluaran extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $primaryKey = 'id';
+
     protected $fillable = [
-        'nama_karyawan',
-        'kategori_karyawan',
+        'tgl_keluar',
+        'id_bahan',
+        'jumlah',
     ];
+
+    // Akses format tanggal untuk tgl_keluar
+    public function getTglKeluarAttribute($value)
+    {
+        return Carbon::parse($value)->translatedFormat('d F Y');
+    }
 }
