@@ -11,73 +11,10 @@
     @vite('resources/css/app.css', 'resources/js/app.js')
 </head>
 <body class="bg-login" style="background-image: url('{{ asset('assets/img/bg-login.jpg') }}');">
-    {{-- <!-- Form Container -->
-     <div class="form-container">
-        <div class="col col-1">
-            <div class="image-layer">
-                <img src="{{ asset('assets/img/white-outline.png') }}" class="form-image-main" alt="">
-                <img src="{{ asset('assets/img/dots.png') }}" class="form-image dots" alt="">
-                <img src="{{ asset('assets/img/coin.png') }}" class="form-image coin" alt="">
-                <img src="{{ asset('assets/img/spring.png') }}" class="form-image spring" alt="">
-                <img src="{{ asset('assets/img/rocket.png') }}" class="form-image rocket" alt="">
-                <img src="{{ asset('assets/img/cloud.png') }}" class="form-image cloud" alt="">
-                <img src="{{ asset('assets/img/stars.png') }}" class="form-image stars" alt="">
-            </div>
-        </div>
-
-        <div class="col col-2">
-            <div class="btn-box">
-                <a class="btn btn-2" href="{{ route('register') }}">Sign Up</a>
-            </div>
-
-            <!-- logins Form Container -->
-            <div class="login-form active">
-                <div class="form-tittle">
-                    <span>Sign In</span>
-                </div>
-                <!-- Session Status -->
-                <x-auth-session-status class="mb-4" :status="session('status')" />
-                <form action="{{ route('login') }}" method="POST" class="form-inputs">
-                    @csrf
-                    <div class="input-box">
-                        <input id="email" class="w-full border rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-[#C1C2C4] px-5 placeholder-lato max-[1300px]:text-sm text-base" type="email" name="email" required autofocus autocomplete="Email"  class="input-field" placeholder="Email"/>
-                        <i class="bx bx-user icon"></i>
-                    </div>
-                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-
-                    <div class="input-box">
-                        <input id="password" class="block mt-1 w-full"
-                                        type="password"
-                                        name="password"
-                                        required autocomplete="current-password" class="w-full border rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-[#C1C2C4] px-5 placeholder-lato max-[1300px]:text-sm text-base pr-12" placeholder="Password"/>
-                        <i class="bx bx-lock-alt icon"></i>
-                    </div>
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
-
-                    <div class="forgot-pass">
-                        @if (Route::has('password.request'))
-                            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                                {{ __('Forgot your password?') }}
-                            </a>
-                        @endif
-                    </div>
-                    <div class="input-box">
-                       <button class="input-submit">
-                            <span>Sign In</span>
-                            <i class="bx bx-right-arrow-alt"></i>
-                       </button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-     </div> --}}
-
-
-     <div class="form-login items-center flex flex-col bg-[#181A1CD6] bg-opacity-[84%] w-[529px] max-[1300px]:w-[480px] px-10 rounded-[16px] py-8 my-40">
+     <div class="form-login items-center flex flex-col shadow-2xl backdrop-blur-xl border border-white/30 bg-gradient-to-r from-white/0 from-13% to-green-700/70 w-[529px] max-[1300px]:w-[480px] px-10 rounded-[16px] py-8 my-40">
         <img src="src/image/logo.png" alt="" class="w-[150px]">
         <div class="mt-8 mb-5">
-            <h1 class="text-center text-4xl max-[1300px]:text-3xl font-raleway text-white font-normal">Masuk</h1>
+            <h1 class="text-center text-4xl max-[1300px]:text-3xl font-raleway text-green-800 font-bold">Masuk</h1>
             <p class="font-raleway text-white text-sm font-normal mt-2">Selamat datang kembali!</p>
         </div>
         <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -85,7 +22,7 @@
             @csrf
             <!-- Email -->
             <h3 class="text-white text-base font-raleway font-medium mb-2">Email</h3>
-            <input id="email" class="w-full border rounded-full bg-transparent h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-[#C1C2C4] px-5 placeholder-lato max-[1300px]:text-sm text-base" type="email" name="email" required autofocus autocomplete="Email"  class="input-field" placeholder="Email"/>
+            <input id="email" class="w-full border rounded-full bg-transparent h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-green-800 px-5 placeholder-lato max-[1300px]:text-sm text-base" type="email" name="email" required autofocus autocomplete="Email"  class="input-field" placeholder="Email"/>
 
             <!-- Kata Sandi -->
             <h3 class="text-white text-base font-raleway font-medium mb-2 mt-8">Kata Sandi</h3>
@@ -93,7 +30,7 @@
                 <input id="password"
                 type="password"
                 name="password"
-                required autocomplete="current-password" class="w-full border rounded-full bg-transparent h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-[#C1C2C4] px-5 placeholder-lato max-[1300px]:text-sm text-base pr-12" placeholder="Password"/>
+                required autocomplete="current-password" class="w-full border rounded-full bg-transparent h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-green-800 px-5 placeholder-lato max-[1300px]:text-sm text-base pr-12" placeholder="Password"/>
 
                 <!-- Tombol Icon Mata -->
                 <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-4 flex items-center">
@@ -109,15 +46,15 @@
             </div>
 
             <div class="flex">
-                <h1 class="text-[#C1C2C4] mt-3 font-raleway mr-auto">Belum punya akun? <a href="{{ route('register') }}" class="text-white">Daftar</a></h1>
+                <h1 class="text-green-800 mt-3 font-medium font-raleway mr-auto">Belum punya akun? <a href="{{ route('register') }}" class="text-white">Daftar</a></h1>
                 @if (Route::has('password.request'))
-                <a class="mt-2 font-raleway text-white" href="{{ route('password.request') }}">
+                <a class="mt-2 font-raleway text-green-800 font-medium" href="{{ route('password.request') }}">
                     {{ __('Lupa Kata Sandi?') }}
                 </a>
                 @endif
             </div>
 
-            <button type="submit" class="mt-8 font-raleway font-semibold text-white bg-[#3D4142] border border-[#E7E3FC3B]/35 rounded-full flex justify-center items-center text-base max-[1300px]:text-sm h-[55px] w-full">
+            <button type="submit" class="mt-8 font-raleway font-semibold text-white bg-green-800 border border-[#E7E3FC3B]/35 rounded-full flex justify-center items-center text-base max-[1300px]:text-sm h-[55px] w-full">
                 Masuk
             </button>
         </form>

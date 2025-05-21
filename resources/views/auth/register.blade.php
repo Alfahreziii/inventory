@@ -11,10 +11,10 @@
 </head>
 <body class="bg-login" style="background-image: url('{{ asset('assets/img/bg-login.jpg') }}');">
 
-    <div class="form-login items-center flex flex-col bg-[#181A1CD6] bg-opacity-[84%] w-[529px] max-[1300px]:w-[480px] px-10 rounded-[16px] py-8 my-40">
+    <div class="form-login items-center flex flex-col shadow-2xl backdrop-blur-xl border border-white/30 bg-gradient-to-r from-white/0 from-13% to-green-700/70 w-[529px] max-[1300px]:w-[480px] px-10 rounded-[16px] py-8 my-40">
         <img src="src/image/logo.png" alt="" class="w-[150px]">
         <div class="mt-8">
-            <h1 class="text-center max-[1300px]:text-3xl text-4xl font-raleway text-white font-normal">Daftar</h1>
+            <h1 class="text-center max-[1300px]:text-3xl text-4xl font-raleway text-green-800 font-bold">Daftar</h1>
             <p class="font-raleway text-white text-sm font-normal mt-2">Selamat datang</p>
         </div>
         <form action="{{ route('register') }}" enctype="multipart/form-data" method="POST" class="w-full">
@@ -22,15 +22,15 @@
             <input class="w-full placeholder px-3 rounded shadow py-2" type="text" hidden name="status" value="spv">
             <!-- Username -->
             <h3 class="text-white text-base font-raleway font-medium mb-2">Username</h3>
-            <input class="w-full border bg-transparent rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-[#C1C2C4] px-5 placeholder-lato max-[1300px]:text-sm text-base" placeholder="Full Name" id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <input class="w-full border bg-transparent rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-green-800 px-5 placeholder-lato max-[1300px]:text-sm text-base" placeholder="Full Name" id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <!-- Email -->
             <h3 class="text-white text-base font-raleway font-medium mb-2 mt-4">Email</h3>
-            <input class="w-full border bg-transparent rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-[#C1C2C4] px-5 placeholder-lato max-[1300px]:text-sm text-base" placeholder="Email" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <input class="w-full border bg-transparent rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-green-800 px-5 placeholder-lato max-[1300px]:text-sm text-base" placeholder="Email" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
 
             <!-- Kata Sandi -->
             <h3 class="text-white text-base font-raleway font-medium mb-2 mt-4">Kata Sandi</h3>
             <div class="relative w-full">
-                <input id="password" class="w-full border bg-transparent rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-[#C1C2C4] px-5 placeholder-lato max-[1300px]:text-sm text-base" type="password" name="password" placeholder="Password" required autocomplete="new-password">
+                <input id="password" class="w-full border bg-transparent rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-green-800 px-5 placeholder-lato max-[1300px]:text-sm text-base" type="password" name="password" placeholder="Password" required autocomplete="new-password">
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 <!-- Tombol Icon Mata -->
                 <button type="button" onclick="togglePassword('password', 'eye-open-1', 'eye-closed-1')" class="absolute inset-y-0 right-4 flex items-center">
@@ -48,7 +48,7 @@
             <!-- Konfirmasi Kata Sandi -->
             <h3 class="text-white text-base font-raleway font-medium mb-2 mt-4">Konfirmasi Kata Sandi</h3>
             <div class="relative w-full">
-                <input id="password_confirmation" class="w-full border bg-transparent rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-[#C1C2C4] px-5 placeholder-lato max-[1300px]:text-sm text-base" type="password" name="password_confirmation" placeholder="Confirm Password" required autocomplete="new-password">
+                <input id="password_confirmation" class="w-full border bg-transparent rounded-full h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-green-800 px-5 placeholder-lato max-[1300px]:text-sm text-base" type="password" name="password_confirmation" placeholder="Confirm Password" required autocomplete="new-password">
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 <!-- Tombol Icon Mata -->
                 <button type="button" onclick="togglePassword('password_confirmation', 'eye-open-2', 'eye-closed-2')" class="absolute inset-y-0 right-4 flex items-center">
@@ -63,9 +63,9 @@
                 </button>
             </div>
 
-            <h1 class="text-[#C1C2C4] mt-3 font-raleway mr-auto">Sudah punya akun? <a href="{{ route('login') }}" class="text-white">Masuk</a></h1>
+            <h1 class="text-green-800 font-medium mt-3 font-raleway mr-auto">Sudah punya akun? <a href="{{ route('login') }}" class="text-white">Masuk</a></h1>
 
-            <button type="submit" class="mt-8 font-raleway max-[1300px]:text-sm font-semibold text-white bg-[#3D4142] border border-[#E7E3FC3B]/35 rounded-full flex justify-center items-center text-base h-[55px] w-full">
+            <button type="submit" class="mt-8 font-raleway max-[1300px]:text-sm font-semibold text-white bg-green-800 border border-[#E7E3FC3B]/35 rounded-full flex justify-center items-center text-base h-[55px] w-full">
                 Daftar
             </button>
         </form>
