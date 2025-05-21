@@ -18,6 +18,7 @@ class RiwayatPengeluaran extends Model
         'tgl_keluar',
         'id_bahan',
         'jumlah',
+        'user_id',
     ];
 
     // Akses format tanggal untuk tgl_keluar

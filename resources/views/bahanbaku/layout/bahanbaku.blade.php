@@ -21,12 +21,12 @@
     <body class="bg-gray-100">
     <div class="w-full mx-auto">
         <nav class="navbars">
-            <div class="navbar-header w-full h-[4.6rem] relative cursor-pointer z-10">
+            <div class="w-full h-[4.6rem] relative cursor-pointer z-10">
                 <ul class="m-0 p-0 list-style-none h-full flex flex-row">
                     <li class="w-full my-3">
                         <a href="#">
                             <div class="h-auto w-full flex items-center justify-center">
-                                <img class="block h-[95px] -mt-[20px]" src="{{ asset('assets/img/logo.jpeg') }}" alt="">
+                                <img class="block h-[95px] -mt-[12px] w-full" src="{{ asset('assets/img/logo.jpeg') }}" alt="">
                             </div>
                         </a>
                     </li>

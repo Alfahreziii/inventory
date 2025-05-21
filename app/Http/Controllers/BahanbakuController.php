@@ -36,13 +36,13 @@ class BahanbakuController extends Controller
                     $editUrl = route('edit-bahanbaku', ['id' => $row->id]);
                     $detailUrl = route('detail-bahanbaku', ['id' => $row->id]);
 
-                    $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold mr-3">Edit</a>';
-                    $detailBtn = '<a href="'.$detailUrl.'" class="text-sm font-bold detail">Detail</a>';
+                    $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold ml-3">Edit</a>';
+                    $detailBtn = '<a href="'.$detailUrl.'" class="text-sm font-bold detail ml-3">Detail</a>';
 
                     // Cek apakah user adalah admin menggunakan Gate
                     $deleteBtn = '';
                     if (Gate::allows('admin-access')) {
-                        $deleteBtn = '<button class="delete-btn text-sm font-bold mr-3" data-id="'.$row->id.'">Delete</button>';
+                        $deleteBtn = '<button class="delete-btn text-sm font-bold ml-3" data-id="'.$row->id.'">Delete</button>';
                     }
 
                     return $editBtn . $deleteBtn . $detailBtn;

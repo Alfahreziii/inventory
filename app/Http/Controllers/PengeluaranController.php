@@ -24,7 +24,8 @@ class PengeluaranController extends Controller
     public function datatable_riwayatpengeluaran(Request $request){
         if ($request->ajax()) {
             $data = RiwayatPengeluaran::join('namabahans', 'riwayat_pengeluarans.id_bahan', '=', 'namabahans.id')
-            ->select('riwayat_pengeluarans.id', 'tgl_keluar', 'jumlah', 'namabahans.nama_bahan')
+            ->join('users', 'riwayat_pengeluarans.user_id', '=', 'users.id')
+            ->select('riwayat_pengeluarans.id', 'tgl_keluar', 'jumlah', 'namabahans.nama_bahan', 'users.name')
             ->get();// Tambahkan 'id'
 
             return DataTables::of($data)->make(true);
@@ -50,10 +51,12 @@ class PengeluaranController extends Controller
             'id_bahan' => ['required'],
             'jumlah' => ['required'],
             'tgl_keluar' => ['required'],
+            'user_id' => ['required'],
         ]);
         $data['id_bahan'] = $request->id_bahan;
         $data['jumlah'] = $request->jumlah;
         $data['tgl_keluar'] = $request->tgl_keluar;
+        $data['user_id'] = $request->user_id;
 
         $id_bahan = $request->id_bahan;
         $jumlahKeluar = $request->jumlah;

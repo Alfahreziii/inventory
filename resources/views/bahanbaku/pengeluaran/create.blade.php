@@ -9,6 +9,7 @@
 
         <form method="post" action="{{ route('tambah-pengeluaran') }}" class="mt-6">
             @csrf
+            <input type="hidden" value="{{ auth()->id() }}" name="user_id">
             <label for="id_bahan" class="block text-sm font-medium text-gray-700">Nama Bahan</label>
             <select id="id_bahan" name="id_bahan" class="w-1/2 select2" required>
                 <option value="" disabled selected hidden>Cari bahan...</option>

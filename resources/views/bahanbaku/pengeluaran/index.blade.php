@@ -21,6 +21,7 @@
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
+                <th class="px-6 py-3" scope="col">Nama</th>
                 <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
                 <th class="py-3" scope="col">Jumlah Bahan Keluar</th>
                 <th class="py-3" scope="col">Tanggal Keluar</th>
@@ -41,6 +42,7 @@ $(document).ready(function() {
         serverSide: true,
         ajax: "{{ route('table_riwayatpengeluaran') }}",
         columns: [
+            { data: 'name', name: 'name' },
             { data: 'nama_bahan', name: 'nama_bahan' },
             { data: 'jumlah', name: 'jumlah' },
             { data: 'tgl_keluar', name: 'tgl_keluar' },
@@ -80,6 +82,9 @@ $(document).ready(function() {
             });
             $('.data-table tbody td:nth-child(1)').each(function() {
                 $(this).addClass('px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(2)').each(function() {
+                $(this).addClass('px-6 py-4 font-medium whitespace-nowrap text-left'); // Tambahkan background dan tengah-kan teks
             });
             $('.data-table tbody td:nth-child(4)').each(function() {
                 $(this).addClass('flex py-4'); // Tambahkan background dan tengah-kan teks
