@@ -26,7 +26,7 @@
                     <li class="w-full my-3">
                         <a href="#">
                             <div class="h-auto w-full flex items-center justify-center">
-                                <img class="block h-[95px] -mt-[20px]" src="{{ asset('assets/img/logo.png') }}" alt="">
+                                <img class="block h-[95px] -mt-[20px]" src="{{ asset('assets/img/logo.jpeg') }}" alt="">
                             </div>
                         </a>
                     </li>

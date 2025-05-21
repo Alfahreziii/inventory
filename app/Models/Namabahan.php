@@ -20,5 +20,6 @@ class Namabahan extends Model
     protected $fillable = [
         'nama_bahan',
         'harga',
+        'suplier',
     ];
 }

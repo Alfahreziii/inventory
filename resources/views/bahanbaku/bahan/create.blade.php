@@ -19,6 +19,12 @@
             </div>
 
             <div class="w-1/2">
+                <x-input-label for="suplier" :value="__('Suplier')" />
+                <x-text-input id="suplier" name="suplier" type="text" class="mt-1 block w-full" required autofocus autocomplete="suplier" placeholder="Masukkan Angka"/>
+                <x-input-error class="mt-2" :messages="$errors->get('suplier')" />
+            </div>
+
+            <div class="w-1/2">
                 <x-input-label for="harga" :value="__('Harga')" />
                 <x-text-input id="harga" name="harga" type="text" class="mt-1 block w-full" required autofocus autocomplete="harga" placeholder="Masukkan Angka"/>
                 <x-input-error class="mt-2" :messages="$errors->get('harga')" />
