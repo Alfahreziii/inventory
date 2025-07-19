@@ -6,10 +6,7 @@
         <h2 class="text-lg font-medium text-gray-900">
             Tambah Nama Bahan
         </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            Create a task for your cluster!!
-        </p>
+        
         <form method="post" action="{{ route('tambah-namabahan') }}" class="mt-6 space-y-6">
             @csrf
             <div class="w-1/2">
@@ -20,8 +17,18 @@
 
             <div class="w-1/2">
                 <x-input-label for="suplier" :value="__('Suplier')" />
-                <x-text-input id="suplier" name="suplier" type="text" class="mt-1 block w-full" required autofocus autocomplete="suplier" placeholder="Masukkan Angka"/>
+                <x-text-input id="suplier" name="suplier" type="text" class="mt-1 block w-full" required autofocus autocomplete="suplier"/>
                 <x-input-error class="mt-2" :messages="$errors->get('suplier')" />
+            </div>
+            <div class="w-1/2">
+                <x-input-label for="no_hp_suplier" :value="__('No HP Suplier')" />
+                <x-text-input id="no_hp_suplier" name="no_hp_suplier" type="text" class="mt-1 block w-full" required autofocus autocomplete="no_hp_suplier"/>
+                <x-input-error class="mt-2" :messages="$errors->get('no_hp_suplier')" />
+            </div>
+            <div class="w-1/2">
+                <x-input-label for="alamat_suplier" :value="__('Alamat Suplier')" />
+                <x-text-input id="alamat_suplier" name="alamat_suplier" type="text" class="mt-1 block w-full" required autofocus autocomplete="alamat_suplier"/>
+                <x-input-error class="mt-2" :messages="$errors->get('alamat_suplier')" />
             </div>
 
             <div class="w-1/2">

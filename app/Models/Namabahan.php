@@ -21,5 +21,8 @@ class Namabahan extends Model
         'nama_bahan',
         'harga',
         'suplier',
+        'code_barang',
+        'no_hp_suplier',
+        'alamat_suplier',
     ];
 }

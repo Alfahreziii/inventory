@@ -13,19 +13,11 @@
         <form method="post" action="{{ route('update-bahanbaku',['id' => $data->id]) }}" class="mt-6 space-y-6">
             @csrf
             @method('PUT')
-            <label for="id_bahan" class="block text-sm font-medium text-gray-700">Nama Bahan</label>
-            <select id="id_bahan" name="id_bahan" class="w-1/2 select2" required>
-                <option value="" disabled selected hidden>Cari bahan...</option>
-                @foreach ($namabahan as $d)
-                    {{-- <option value="{{ $d->id }}">{{ $d->nama_bahan }}</option> --}}
-                    <option value="{{ $d->id }}" {{ $data->id == $d->id ? 'selected' : '' }}>
-                        {{ $d->nama_bahan }}
-                    </option>
-                @endforeach
-            </select>
-            <x-input-error class="mt-2" :messages="$errors->get('id_bahan')" />
-
-
+            <x-text-input id="id_bahan" name="id_bahan" type="text" class="mt-1 block w-full hidden" required autocomplete="tgl_masuk" value="{{ $data->id_bahan }}"/>
+            <div class="w-1/2">
+                <x-input-label for="nama_bahan" :value="__('Nama Bahan')" />
+                <x-text-input readonly id="nama_bahan" name="nama_bahan" type="text" class="mt-1 block w-full" required autofocus autocomplete="nama_bahan" placeholder="Masukkan Angka" value=" {{ $data->nama_bahan }}"/>
+            </div>
             <div class="w-1/2">
                 <x-input-label for="tgl_masuk" :value="__('Tanggal Masuk')" />
                 <x-text-input id="tgl_masuk" name="tgl_masuk" type="date" class="mt-1 block w-full" required autocomplete="tgl_masuk" value="{{ \Carbon\Carbon::parse($data->tgl_masuk)->format('Y-m-d') }}"/>
@@ -62,17 +54,6 @@
 
             <div class="flex items-start gap-4 w-1/2">
                 <input type="submit" value="Submit" class="flex mt-3 justify-center items-center text-lg py-1 font-semibold rounded text-white bg-gradient-to-r from-cyan-300 to-violet-950 w-[75%]">
-                <a href="{{ route('dashboard') }}" class="flex mt-3 justify-center items-center text-lg py-1 font-semibold rounded text-white bg-red-500 w-1/2">Cancel</a>
             </div>
         </form>
-
-        <script>
-            $(document).ready(function() {
-                $('#id_bahan').select2({
-                    placeholder: "Cari bahan...",
-                    allowClear: true
-                });
-            });
-        </script>
-
 @endsection

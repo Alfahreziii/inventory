@@ -22,9 +22,13 @@
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
+                <th class="px-6 py-3" scope="col">Code Bahan Baku</th>
                 <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
+                <th class="px-6 py-3" scope="col">Jumlah Bahan Baku</th>
                 <th class="px-6 py-3" scope="col">Suplier</th>
-                <th class="py-3" scope="col">Harga</th>
+                <th class="px-6 py-3" scope="col">No HP Suplier</th>
+                <th class="px-6 py-3" scope="col">Alamat Suplier</th>
+                <th class="py-3 px-6" scope="col">Harga</th>
                 <th class="py-3" scope="col">Aksi</th>
             </tr>
         </thead>
@@ -43,8 +47,12 @@ $(document).ready(function() {
         serverSide: true,
         ajax: "{{ route('table_namabahan') }}",
         columns: [
+            { data: 'code_barang', name: 'code_barang' },
             { data: 'nama_bahan', name: 'nama_bahan' },
+            { data: 'jumlah_bahan', name: 'jumlah_bahan' },
             { data: 'suplier', name: 'suplier' },
+            { data: 'no_hp_suplier', name: 'no_hp_suplier' },
+            { data: 'alamat_suplier', name: 'alamat_suplier' },
             { data: 'harga', name: 'harga' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
@@ -88,12 +96,24 @@ $(document).ready(function() {
                 $(this).addClass('px-6 py-4 font-medium text-left whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
             });
             $('.data-table tbody td:nth-child(3)').each(function() {
-                $(this).addClass('flex py-4'); // Tambahkan background dan tengah-kan teks
+                $(this).addClass('px-6 py-4 font-medium text-left whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(4) a').each(function() {
+            $('.data-table tbody td:nth-child(4)').each(function() {
+                $(this).addClass('px-6 py-4 font-medium text-left whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(5)').each(function() {
+                $(this).addClass('px-6 py-4 font-medium text-left whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(6)').each(function() {
+                $(this).addClass('px-6 py-4 font-medium text-left whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(7)').each(function() {
+                $(this).addClass('px-6 py-4 font-medium text-left whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(8) a').each(function() {
                 $(this).addClass('text-green-500'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(4) button').each(function() {
+            $('.data-table tbody td:nth-child(8) button').each(function() {
                 $(this).addClass('text-red-500'); // Tambahkan background dan tengah-kan teks
             });
         }

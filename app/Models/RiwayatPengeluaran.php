@@ -26,4 +26,15 @@ class RiwayatPengeluaran extends Model
     {
         return Carbon::parse($value)->translatedFormat('d F Y');
     }
+
+    public function namabahan()
+{
+    return $this->belongsTo(Namabahan::class, 'id_bahan');
+}
+
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
+
 }

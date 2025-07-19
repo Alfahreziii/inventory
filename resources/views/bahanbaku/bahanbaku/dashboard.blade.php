@@ -1,66 +1,16 @@
 @extends('bahanbaku/layout/bahanbaku')
 @section('content_bahanbaku')
-<h1 class="font-bold text-slate-600 text-3xl">BAHAN BAKU</h1>
+<h1 class="font-bold text-slate-600 text-3xl">Dashboard</h1>
 <div class="flex  text-sm font-normal items-center mt-1">
     <a href="#" class="text-slate-500">home</a>
     <i data-feather="chevron-right" class="text-gray-400 font-bold"></i>
-    <a href="#" class="text-slate-400">Bahan Baku</a>
+    <a href="#" class="text-slate-400">Dashboard</a>
 </div>
 
 {{-- Task --}}
 <div class="garis mt-10 mb-3">
-    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">BAHAN BAKU</div>
+    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">Kadaluarsa Bulan Ini</div>
 </div>
-<!-- Tombol Cetak -->
-<button
-  onclick="openModal()"
-  class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
->
-  Cetak PDF
-</button>
-
-<!-- Modal -->
-<div
-  id="modalCetak"
-  class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center hidden"
->
-  <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold">Cetak PDF</h2>
-      <button onclick="closeModal()" class="text-gray-600 hover:text-red-500 text-2xl">&times;</button>
-    </div>
-    <form action="{{ route('bahanbaku.cetak') }}" method="GET" target="_blank">
-      <div class="mb-4">
-        <label for="bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
-        <select name="bulan" id="bulan" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-          @for ($i = 1; $i <= 12; $i++)
-            <option value="{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
-          @endfor
-        </select>
-      </div>
-      <div class="mb-4">
-        <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun</label>
-        <select name="tahun" id="tahun" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-          @for ($year = now()->year; $year >= 2000; $year--)
-            <option value="{{ $year }}">{{ $year }}</option>
-          @endfor
-        </select>
-      </div>
-      <div class="flex justify-end">
-        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Cetak</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-
-
-@can('admin-access')
-<a href="{{ route('buat-bahanbaku') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-green-500">
-    <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH BAHAN BAKU
-</a>
-@endcan
 
 <div class="relative overflow-x-auto overflow-y-hidden scrollbar-hide pb-5">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
@@ -69,7 +19,7 @@
                 <th class="px-6 py-3" scope="col">Code Bahan Baku</th>
                 <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
                 <th class="py-3" scope="col">Jumlah Bahan</th>
-                <th class="py-3" scope="col">Aksi</th>
+                <th class="py-3" scope="col">Tanggal Kadaluarsa</th>
             </tr>
         </thead>
         <tbody>
@@ -79,26 +29,18 @@
 </div>
 
 
-<script>
-  function openModal() {
-    document.getElementById('modalCetak').classList.remove('hidden');
-  }
 
-  function closeModal() {
-    document.getElementById('modalCetak').classList.add('hidden');
-  }
-</script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('table_bahanbaku') }}",
+        ajax: "{{ route('kadaluarsa-bulan-ini') }}",
         columns: [
             { data: 'code_barang', name: 'code_barang' },
             { data: 'nama_bahan', name: 'nama_bahan' },
-            { data: 'total_sisa', name: 'total_sisa' },
-            { data: 'action', name: 'action', orderable: false, searchable: false }
+            { data: 'sisa', name: 'sisa' },
+            { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
         ],
         dom: '<"flex justify-between items-center mb-4"<"w-full flex justify-start space-x-4"f l>>rt<"flex justify-between items-center mt-4"ip>',
         language: {

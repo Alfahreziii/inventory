@@ -18,11 +18,8 @@ use App\Http\Controllers\PengeluaranController;
 |
 */
 
-Route::get('/',[BahanbakuController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/',[BahanbakuController::class, 'index'])->middleware(['auth', 'verified'])->name('bahanbaku');
+Route::get('/dashboard', [BahanbakuController::class, 'dashboard'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
         //profile
@@ -43,10 +40,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/namabahan/delete/{id}', [NamabahanController::class, 'destroy'])->name('delete-namabahan');
         });
         //bahan baku
-        Route::get('/dashboard',[BahanbakuController::class, 'index'])->name('dashboard');
+        Route::get('/bahanbaku',[BahanbakuController::class, 'index'])->name('bahanbaku');
         Route::get('/bahanbaku/edit/{id}', [BahanbakuController::class, 'edit'])->name('edit-bahanbaku');
         Route::get('/bahanbaku/detail/{id}', [BahanbakuController::class, 'detail'])->name('detail-bahanbaku');
         Route::put('/bahanbaku/update/{id}', [BahanbakuController::class, 'update'])->name('update-bahanbaku');
+        Route::get('/bahanbaku/detail-group/{id}', [BahanbakuController::class, 'detailGroup'])->name('detail-group-bahanbaku');
+
 
         //riwayat pengeluaran
         Route::get('/riwayat-pengeluaran',[PengeluaranController::class, 'index'])->name('riwayat-pengeluaran');
@@ -65,6 +64,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/table_namabahan',[NamabahanController::class, 'datatable_namabahan'])->name('table_namabahan');
         Route::get('/table_riwayatpengeluaran',[PengeluaranController::class, 'datatable_riwayatpengeluaran'])->name('table_riwayatpengeluaran');
         Route::get('/table_riwayatlogin',[ProfileController::class, 'datatable_riwayatlogin'])->name('table_riwayatlogin');
+        Route::get('/bahanbaku/detail-group-datatable/{id}', [BahanbakuController::class, 'datatableDetailGroup'])->name('datatable-detail-group-bahanbaku');
+        Route::get('/kadaluarsa-bulan-ini', [BahanbakuController::class, 'bahanbaku_kadaluarsa_bulan_ini'])->name('kadaluarsa-bulan-ini');
+
+        //export
+        Route::get('/bahanbaku/cetak', [BahanbakuController::class, 'cetakPDF'])->name('bahanbaku.cetak');
+        Route::get('/cetak-pengeluaran', [PengeluaranController::class, 'cetakPDF'])->name('cetak-pengeluaran');
 
 });
 

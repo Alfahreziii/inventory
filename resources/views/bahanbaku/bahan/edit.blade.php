@@ -14,6 +14,12 @@
             @csrf
             @method('PUT')
             <div class="w-1/2">
+                <x-input-label for="code_barang" :value="__('Code Barang')" />
+                <x-text-input readonly id="code_barang" name="code_barang" type="text" class="mt-1 block w-full" required autofocus autocomplete="code_barang" value="{{ $data->code_barang }}"/>
+                <x-input-error class="mt-2" :messages="$errors->get('code_barang')" />
+            </div>
+
+            <div class="w-1/2">
                 <x-input-label for="nama_bahan" :value="__('Nama Bahan')" />
                 <x-text-input id="nama_bahan" name="nama_bahan" type="text" class="mt-1 block w-full" required autofocus autocomplete="nama_bahan" value="{{ $data->nama_bahan }}"/>
                 <x-input-error class="mt-2" :messages="$errors->get('nama_bahan')" />

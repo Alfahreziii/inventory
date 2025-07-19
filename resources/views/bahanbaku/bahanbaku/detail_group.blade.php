@@ -9,67 +9,22 @@
 
 {{-- Task --}}
 <div class="garis mt-10 mb-3">
-    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">BAHAN BAKU</div>
+    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">Detail Nama Bahan: {{ $bahan->nama_bahan }}</div>
 </div>
-<!-- Tombol Cetak -->
-<button
-  onclick="openModal()"
-  class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
->
-  Cetak PDF
-</button>
-
-<!-- Modal -->
-<div
-  id="modalCetak"
-  class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center hidden"
->
-  <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-semibold">Cetak PDF</h2>
-      <button onclick="closeModal()" class="text-gray-600 hover:text-red-500 text-2xl">&times;</button>
-    </div>
-    <form action="{{ route('bahanbaku.cetak') }}" method="GET" target="_blank">
-      <div class="mb-4">
-        <label for="bulan" class="block text-sm font-medium text-gray-700">Bulan</label>
-        <select name="bulan" id="bulan" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-          @for ($i = 1; $i <= 12; $i++)
-            <option value="{{ $i }}">{{ \Carbon\Carbon::create()->month($i)->format('F') }}</option>
-          @endfor
-        </select>
-      </div>
-      <div class="mb-4">
-        <label for="tahun" class="block text-sm font-medium text-gray-700">Tahun</label>
-        <select name="tahun" id="tahun" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-          @for ($year = now()->year; $year >= 2000; $year--)
-            <option value="{{ $year }}">{{ $year }}</option>
-          @endfor
-        </select>
-      </div>
-      <div class="flex justify-end">
-        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Cetak</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-
-
-
-@can('admin-access')
-<a href="{{ route('buat-bahanbaku') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-green-500">
-    <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH BAHAN BAKU
-</a>
-@endcan
 
 <div class="relative overflow-x-auto overflow-y-hidden scrollbar-hide pb-5">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-                <th class="px-6 py-3" scope="col">Code Bahan Baku</th>
-                <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
-                <th class="py-3" scope="col">Jumlah Bahan</th>
-                <th class="py-3" scope="col">Aksi</th>
+                <th class="px-6 py-3">Tanggal Masuk</th>
+                <th class=" py-3">Tanggal Kadaluarsa</th>
+                <th class=" py-3">Sisa</th>
+                <th class=" py-3">Demand</th>
+                <th class=" py-3">Biaya Simpan</th>
+                <th class=" py-3">Biaya Pesan</th>
+                <th class=" py-3">Total Harga</th>
+                <th class=" py-3">Nilai X</th>
+                <th class="px-3 py-3">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -79,25 +34,22 @@
 </div>
 
 
-<script>
-  function openModal() {
-    document.getElementById('modalCetak').classList.remove('hidden');
-  }
 
-  function closeModal() {
-    document.getElementById('modalCetak').classList.add('hidden');
-  }
-</script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('table_bahanbaku') }}",
+        ajax: "{{ route('datatable-detail-group-bahanbaku', ['id' => $bahan->id]) }}",
         columns: [
-            { data: 'code_barang', name: 'code_barang' },
-            { data: 'nama_bahan', name: 'nama_bahan' },
-            { data: 'total_sisa', name: 'total_sisa' },
+            { data: 'tgl_masuk', name: 'tgl_masuk' },
+            { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
+            { data: 'sisa', name: 'sisa' },
+            { data: 'demand', name: 'demand' },
+            { data: 'biaya_simpan', name: 'biaya_simpan' },
+            { data: 'biaya_pesan', name: 'biaya_pesan' },
+            { data: 'harga_total', name: 'harga_total' },
+            { data: 'nilai_x', name: 'nilai_x' },
             { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
         dom: '<"flex justify-between items-center mb-4"<"w-full flex justify-start space-x-4"f l>>rt<"flex justify-between items-center mt-4"ip>',
@@ -134,16 +86,19 @@ $(document).ready(function() {
                 $(this).addClass('bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'); // Styling tambahan
             });
             $('.data-table tbody td:nth-child(1)').each(function() {
-                $(this).addClass('px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
-            });
-            $('.data-table tbody td:nth-child(2)').each(function() {
-                $(this).addClass('px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white');
+                $(this).addClass('px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'); // Tambahkan background dan tengah-kan teks
             });
             $('.data-table tbody td:nth-child(4)').each(function() {
-                $(this).addClass('flex py-4');
+                $(this).addClass('flex py-4'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(5) .detail').each(function() {
-                $(this).addClass('text-blue-500');
+            $('.data-table tbody td:nth-child(9) a').each(function() {
+                $(this).addClass('text-green-500'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(9) button').each(function() {
+                $(this).addClass('text-red-500'); // Tambahkan background dan tengah-kan teks
+            });
+            $('.data-table tbody td:nth-child(9) .detail').each(function() {
+                $(this).addClass('text-blue-500'); // Tambahkan background dan tengah-kan teks
             });
         }
     });

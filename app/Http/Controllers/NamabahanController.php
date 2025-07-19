@@ -11,6 +11,16 @@ use Illuminate\Support\Facades\Gate;
 
 class NamabahanController extends Controller
 {
+
+    private function generateKodeBarang(): string
+    {
+        $last = Namabahan::orderBy('id', 'desc')->first();
+        $nextId = $last ? $last->id + 1 : 1;
+
+        return 'CB-' . str_pad($nextId, 4, '0', STR_PAD_LEFT); // contoh: CB-0001
+    }
+
+
     public function index() {
         $top = DB::table('users')
         ->select('users.name')
@@ -23,30 +33,59 @@ class NamabahanController extends Controller
         return view('bahanbaku/bahan/bahan', compact('top','data'));
     }
 
-    public function datatable_namabahan(Request $request){
-        if ($request->ajax()) {
-            $data = Namabahan::select('id', 'nama_bahan', 'harga', 'suplier')
-            ->get();// Tambahkan 'id'
+public function datatable_namabahan(Request $request)
+{
+    if ($request->ajax()) {
+        $data = Namabahan::leftJoin('bahanbakus', 'namabahans.id', '=', 'bahanbakus.id_bahan')
+            ->leftJoin('riwayat_pengeluarans', 'namabahans.id', '=', 'riwayat_pengeluarans.id_bahan')
+            ->select(
+                'namabahans.id',
+                'namabahans.nama_bahan',
+                'namabahans.harga',
+                'namabahans.suplier',
+                'namabahans.code_barang',
+                'namabahans.no_hp_suplier',
+                'namabahans.alamat_suplier',
+                DB::raw('COALESCE(SUM(bahanbakus.sisa), 0) - COALESCE(SUM(riwayat_pengeluarans.jumlah), 0) AS jumlah_bahan')
+            )
+            ->groupBy(
+                'namabahans.id',
+                'namabahans.nama_bahan',
+                'namabahans.harga',
+                'namabahans.suplier',
+                'namabahans.code_barang',
+                'namabahans.no_hp_suplier',
+                'namabahans.alamat_suplier'
+            )
+            ->get();
 
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $editUrl = route('edit-namabahan', ['id' => $row->id]);
-                    $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold text-green-500">Edit</a>';
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->editColumn('harga', function ($row) {
+                return 'Rp ' . number_format($row->harga, 0, ',', '.');
+            })
+            ->editColumn('jumlah_bahan', function ($row) {
+                return $row->jumlah_bahan >= 0 ? $row->jumlah_bahan : 0;
+            })
+            ->addColumn('action', function ($row) {
+                $editUrl = route('edit-namabahan', ['id' => $row->id]);
+                $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold text-green-500">Edit</a>';
 
-                    $deleteBtn = '';
-                    if (Gate::allows('admin-access')) {
-                        $deleteBtn = '<button class="delete-btn text-sm font-bold ml-3" data-id="'.$row->id.'">Delete</button>';
-                    }
+                $deleteBtn = '';
+                if (Gate::allows('admin-access')) {
+                    $deleteBtn = '<button class="delete-btn text-sm font-bold ml-3" data-id="'.$row->id.'">Delete</button>';
+                }
 
-                    return $editBtn . $deleteBtn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return response()->json(['message' => 'Invalid request'], 400);
+                return $editBtn . $deleteBtn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
+
+    return response()->json(['message' => 'Invalid request'], 400);
+}
+
+
 
     public function create(){
         $top = DB::table('users')
@@ -57,45 +96,64 @@ class NamabahanController extends Controller
         return view ('bahanbaku/bahan/create', compact('top'));
     }
 
-    public function store(request $request){
-
+    public function store(Request $request)
+    {
         $request->validate([
             'nama_bahan' => ['required'],
             'harga' => ['required'],
             'suplier' => ['required'],
+            'no_hp_suplier' => ['nullable'],
+            'alamat_suplier' => ['nullable'],
         ]);
-        $data['nama_bahan'] = $request->nama_bahan;
-        $data['harga'] = $request->harga;
-        $data['suplier'] = $request->suplier;
+
+        $data = [
+            'nama_bahan' => $request->nama_bahan,
+            'harga' => $request->harga,
+            'suplier' => $request->suplier,
+            'code_barang' => $this->generateKodeBarang(), // generate otomatis
+            'no_hp_suplier' => $request->no_hp_suplier,
+            'alamat_suplier' => $request->alamat_suplier,
+        ];
 
         Namabahan::create($data);
 
         return redirect('namabahan');
     }
 
-    public function edit(request $request,$id){
-        $top = DB::table('users')
-        ->select('users.name')
-        ->where('users.id', '=', Auth::user()->id)
-        ->first();
 
-        $data = Namabahan::select('id', 'nama_bahan', 'harga', 'suplier')
-        ->where('id', '=', $id)
-        ->first();
-        return view('bahanbaku/bahan/edit',compact('data', 'top'));
+
+    public function edit(Request $request, $id)
+    {
+        $top = DB::table('users')
+            ->select('users.name')
+            ->where('users.id', '=', Auth::user()->id)
+            ->first();
+
+        $data = Namabahan::where('id', $id)->first(); // tampilkan semua kolom saja langsung
+
+        return view('bahanbaku/bahan/edit', compact('data', 'top'));
     }
 
-    public function update(request $request,$id) {
+
+    public function update(Request $request, $id)
+    {
         $request->validate([
             'nama_bahan' => ['required'],
             'harga' => ['required'],
             'suplier' => ['required'],
+            'no_hp_suplier' => ['nullable'],
+            'alamat_suplier' => ['nullable'],
         ]);
-        $data['nama_bahan'] = $request->nama_bahan;
-        $data['harga'] = $request->harga;
-        $data['suplier'] = $request->suplier;
 
-        Namabahan::where('id', '=', $id)->update($data);
+        $data = [
+            'nama_bahan' => $request->nama_bahan,
+            'harga' => $request->harga,
+            'suplier' => $request->suplier,
+            'no_hp_suplier' => $request->no_hp_suplier,
+            'alamat_suplier' => $request->alamat_suplier,
+        ];
+
+        Namabahan::where('id', $id)->update($data);
 
         return redirect('namabahan');
     }

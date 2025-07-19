@@ -3,19 +3,18 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://unpkg.com/feather-icons"></script>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <!-- Select2 CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet">
-        <!-- Select2 JS -->
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
         <title>Laravel</title>
         <!-- Styles -->
+        {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
         @vite('resources/css/app.css', 'resources/js/app.js')
     </head>
     <body class="bg-gray-100">
@@ -40,13 +39,18 @@
                         </a>
                     </li>
                     <li class="relative whitespace-nowrap m-0">
+                        <a href="{{ route('bahanbaku') }}" class="nav-item {{ set_active(['bahanbaku']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
+                            <i data-feather="copy" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Bahan Baku</span>
+                        </a>
+                    </li>
+                    <li class="relative whitespace-nowrap m-0">
                         <a href="{{ route('namabahan') }}" class="nav-item {{ set_active(['namabahan']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
                             <i data-feather="archive" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Nama Bahan</span>
                         </a>
                     </li>
                     <li class="relative whitespace-nowrap m-0">
                         <a href="{{ route('riwayat-pengeluaran') }}" class="nav-item {{ set_active(['riwayat-pengeluaran']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
-                            <i data-feather="archive" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Riwayat Pengeluaran</span>
+                            <i data-feather="airplay" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Riwayat Pengeluaran</span>
                         </a>
                     </li>
                     <li class="relative whitespace-nowrap m-0">
