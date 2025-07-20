@@ -19,11 +19,7 @@ class Bahanbaku extends Model
         'tgl_masuk',
         'id_bahan',
         'sisa',
-        'demand',
-        'biaya_simpan',
-        'biaya_pesan',
         'harga_total',
-        'nilai_x',
     ];
 
     // Akses format tanggal untuk tgl_kadaluarsa

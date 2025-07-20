@@ -134,7 +134,7 @@ class BahanbakuController extends Controller
     {
         if ($request->ajax()) {
             $data = Bahanbaku::where('id_bahan', $id)
-                ->select('id', 'tgl_kadaluarsa', 'tgl_masuk', 'sisa', 'demand', 'biaya_simpan', 'biaya_pesan', 'harga_total', 'nilai_x')
+                ->select('id', 'tgl_kadaluarsa', 'tgl_masuk', 'sisa', 'harga_total')
                 ->get();
 
             return DataTables::of($data)
@@ -179,26 +179,17 @@ class BahanbakuController extends Controller
             'tgl_kadaluarsa' => ['required'],
             'tgl_masuk' => ['required'],
             'sisa' => ['required'],
-            'demand' => ['required'],
-            'nilai_x' => ['required'],
         ]);
 
         $harga = DB::table('namabahans')->where('id', $request->id_bahan)->value('harga');
 
-        $x = $request->nilai_x;
-        $biaya_simpan = $x * $harga;
-        $harga_total = $request->demand * $harga;
-        $biaya_pesan = $x * $harga_total;
+        $harga_total = $request->sisa * $harga;
 
         $data['id_bahan'] = $request->id_bahan;
         $data['tgl_kadaluarsa'] = $request->tgl_kadaluarsa;
         $data['tgl_masuk'] = $request->tgl_masuk;
         $data['sisa'] = $request->sisa;
-        $data['demand'] = $request->demand;
-        $data['biaya_simpan'] = $biaya_simpan;
-        $data['biaya_pesan'] = $biaya_pesan;
         $data['harga_total'] = $harga_total;
-        $data['nilai_x'] = $x;
 
 
         Bahanbaku::create($data);
@@ -214,7 +205,7 @@ class BahanbakuController extends Controller
 
         $data = Bahanbaku::join('namabahans', 'bahanbakus.id_bahan', '=', 'namabahans.id')
         ->select('bahanbakus.id', 'tgl_kadaluarsa', 'tgl_masuk', 'nama_bahan', 'harga',
-        'sisa', 'demand', 'biaya_simpan', 'biaya_pesan', 'harga_total', 'nilai_x')
+        'sisa', 'harga_total')
         ->where('bahanbakus.id' , '=', $id)
         ->first();
 
@@ -230,7 +221,7 @@ class BahanbakuController extends Controller
 
         $data = Bahanbaku::join('namabahans', 'bahanbakus.id_bahan', '=', 'namabahans.id')
         ->select('bahanbakus.id', 'tgl_kadaluarsa', 'tgl_masuk', 'nama_bahan', 'harga',
-        'sisa', 'demand', 'biaya_simpan', 'biaya_pesan', 'harga_total', 'nilai_x', 'namabahans.id as id_bahan')
+        'sisa', 'harga_total', 'namabahans.id as id_bahan')
         ->where('bahanbakus.id' , '=', $id)
         ->first();
 
@@ -245,26 +236,17 @@ class BahanbakuController extends Controller
             'tgl_kadaluarsa' => ['required'],
             'tgl_masuk' => ['required'],
             'sisa' => ['required'],
-            'demand' => ['required'],
-            'nilai_x' => ['required'],
         ]);
 
         $harga = DB::table('namabahans')->where('id', $request->id_bahan)->value('harga');
 
-        $x = $request->nilai_x;
-        $biaya_simpan = $x * $harga;
-        $harga_total = $request->demand * $harga;
-        $biaya_pesan = $x * $harga_total;
+        $harga_total = $request->sisa * $harga;
 
         $data['id_bahan'] = $request->id_bahan;
         $data['tgl_kadaluarsa'] = $request->tgl_kadaluarsa;
         $data['tgl_masuk'] = $request->tgl_masuk;
         $data['sisa'] = $request->sisa;
-        $data['demand'] = $request->demand;
-        $data['biaya_simpan'] = $biaya_simpan;
-        $data['biaya_pesan'] = $biaya_pesan;
         $data['harga_total'] = $harga_total;
-        $data['nilai_x'] = $x;
 
         Bahanbaku::where('id', '=', $id)->update($data);
 

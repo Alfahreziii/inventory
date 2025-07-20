@@ -30,25 +30,9 @@
             </div>
 
             <div class="w-1/2">
-                <x-input-label for="harga" :value="__('Harga')" />
-                <x-text-input id="harga" name="harga" type="text" class="mt-1 block w-full" required autofocus autocomplete="harga" placeholder="Masukkan Angka" value=" {{ $data->harga }}"/>
-                <x-input-error class="mt-2" :messages="$errors->get('harga')" />
-            </div>
-
-            <div class="w-1/2">
                 <x-input-label for="sisa" :value="__('Jumlah Bahan')" />
                 <x-text-input id="sisa" name="sisa" type="text" class="mt-1 block w-full" required autofocus autocomplete="sisa" placeholder="Masukkan Angka" value=" {{ $data->sisa }}"/>
                 <x-input-error class="mt-2" :messages="$errors->get('sisa')" />
-            </div>
-            <div class="w-1/2">
-                <x-input-label for="demand" :value="__('Demand')" />
-                <x-text-input id="demand" name="demand" type="text" class="mt-1 block w-full" required autofocus autocomplete="demand" placeholder="Masukkan Angka" value=" {{ $data->demand }}"/>
-                <x-input-error class="mt-2" :messages="$errors->get('demand')" />
-            </div>
-            <div class="w-1/2">
-                <x-input-label for="nilai_x" :value="__('Nilai X')" />
-                <x-text-input id="nilai_x" name="nilai_x" type="text" class="mt-1 block w-full" required autofocus autocomplete="nilai_x" placeholder="Masukkan Angka" value=" {{ $data->nilai_x }}"/>
-                <x-input-error class="mt-2" :messages="$errors->get('nilai_x')" />
             </div>
 
 

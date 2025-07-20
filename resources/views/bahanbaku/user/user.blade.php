@@ -1,20 +1,20 @@
 @extends('bahanbaku/layout/bahanbaku')
 @section('content_bahanbaku')
-<h1 class="font-bold text-slate-600 text-3xl">RIWAYAT LOGIN</h1>
+<h1 class="font-bold text-[#035233] text-3xl">RIWAYAT LOGIN</h1>
 <div class="flex  text-sm font-normal items-center mt-1">
-    <a href="#" class="text-slate-500">home</a>
-    <i data-feather="chevron-right" class="text-gray-400 font-bold"></i>
-    <a href="#" class="text-slate-400">Riwayat Login</a>
+    <a href="#" class="text-[#035233]">home</a>
+    <i data-feather="chevron-right" class="text-[#035233] font-bold"></i>
+    <a href="#" class="text-[#035233]">Riwayat Login</a>
 </div>
 
 {{-- Task --}}
 <div class="garis mt-10 mb-3">
-    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">RIWAYAT LOGIN</div>
+    <div class=" pr-3 text-lg font-medium text-[#035233]">RIWAYAT LOGIN</div>
 </div>
 
 <div class="relative overflow-x-auto overflow-y-hidden scrollbar-hide pb-5">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table class="w-full text-sm text-left rtl:text-right text-[#035233] dark:text-[#035233] data-table shadow-md">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-[#035233]">
             <tr>
                 <th class="px-6 py-3" scope="col">Nama</th>
                 <th class="py-3" scope="col">Email</th>
@@ -60,7 +60,7 @@ $(document).ready(function() {
 
             // Styling untuk pagination
             $('.dataTables_paginate .paginate_button')
-                .addClass('border text-sm border-gray-300 px-3 py-2 rounded-md bg-white hover:bg-gray-300 text-gray-500 cursor-pointer mx-1 transition duration-200');
+                .addClass('border text-sm border-gray-300 px-3 py-2 rounded-md bg-white hover:bg-gray-300 text-[#035233] cursor-pointer mx-1 transition duration-200');
 
             // Styling tombol pagination aktif
             $('.dataTables_paginate .paginate_button.current')

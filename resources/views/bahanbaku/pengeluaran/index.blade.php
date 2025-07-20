@@ -1,15 +1,15 @@
 @extends('bahanbaku/layout/bahanbaku')
 @section('content_bahanbaku')
-<h1 class="font-bold text-slate-600 text-3xl">BAHAN BAKU</h1>
+<h1 class="font-bold text-[#035233] text-3xl">BAHAN BAKU</h1>
 <div class="flex  text-sm font-normal items-center mt-1">
-    <a href="#" class="text-slate-500">home</a>
-    <i data-feather="chevron-right" class="text-gray-400 font-bold"></i>
-    <a href="#" class="text-slate-400">Bahan Baku</a>
+    <a href="#" class="text-[#035233]">home</a>
+    <i data-feather="chevron-right" class="text-[#035233] font-bold"></i>
+    <a href="#" class="text-[#035233]">Bahan Baku</a>
 </div>
 
 {{-- Task --}}
 <div class="garis mt-10 mb-3">
-    <div class="bg-slate-100 pr-3 text-lg font-medium text-slate-600">BAHAN BAKU</div>
+    <div class=" pr-3 text-lg font-medium text-[#035233]">BAHAN BAKU</div>
 </div>
 
 <!-- Tombol Cetak -->
@@ -55,14 +55,14 @@
 </div>
 
 @can('admin-access')
-<a href="{{ route('buat-pengeluaran') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-green-500">
+<a href="{{ route('buat-pengeluaran') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-[#035233]">
     <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH RIWAYAT PENGELUARAN
 </a>
 @endcan
 
 <div class="relative overflow-x-auto overflow-y-hidden scrollbar-hide pb-5">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 data-table shadow-md">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table class="w-full text-sm text-left rtl:text-right text-[#035233] dark:text-[#035233] data-table shadow-md">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-[#035233]">
             <tr>
                 <th class="px-6 py-3" scope="col">Nama</th>
                 <th class="px-6 py-3" scope="col">Code Bahan Baku</th>
@@ -118,7 +118,7 @@ $(document).ready(function() {
 
             // Styling untuk pagination
             $('.dataTables_paginate .paginate_button')
-                .addClass('border text-sm border-gray-300 px-3 py-2 rounded-md bg-white hover:bg-gray-300 text-gray-500 cursor-pointer mx-1 transition duration-200');
+                .addClass('border text-sm border-gray-300 px-3 py-2 rounded-md bg-white hover:bg-gray-300 text-[#035233] cursor-pointer mx-1 transition duration-200');
 
             // Styling tombol pagination aktif
             $('.dataTables_paginate .paginate_button.current')
@@ -146,7 +146,7 @@ $(document).ready(function() {
                 $(this).addClass('flex py-4'); // Tambahkan background dan tengah-kan teks
             });
             $('.data-table tbody td:nth-child(5) a').each(function() {
-                $(this).addClass('text-green-500'); // Tambahkan background dan tengah-kan teks
+                $(this).addClass('text-[#035233]'); // Tambahkan background dan tengah-kan teks
             });
             $('.data-table tbody td:nth-child(5) button').each(function() {
                 $(this).addClass('text-red-500'); // Tambahkan background dan tengah-kan teks

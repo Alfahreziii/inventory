@@ -69,7 +69,7 @@ public function datatable_namabahan(Request $request)
             })
             ->addColumn('action', function ($row) {
                 $editUrl = route('edit-namabahan', ['id' => $row->id]);
-                $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold text-green-500">Edit</a>';
+                $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold text-[#035233]">Edit</a>';
 
                 $deleteBtn = '';
                 if (Gate::allows('admin-access')) {

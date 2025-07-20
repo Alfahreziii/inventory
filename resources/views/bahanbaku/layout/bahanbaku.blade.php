@@ -17,7 +17,7 @@
         {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
         @vite('resources/css/app.css', 'resources/js/app.js')
     </head>
-    <body class="bg-gray-100">
+    <body class="bg-yellow-500">
     <div class="w-full mx-auto">
         <nav class="navbars">
             <div class="w-full h-[4.6rem] relative cursor-pointer z-10">
@@ -25,14 +25,14 @@
                     <li class="w-full my-3">
                         <a href="#">
                             <div class="h-auto w-full flex items-center justify-center">
-                                <img class="block h-[95px] -mt-[12px] w-full" src="{{ asset('assets/img/logo.jpeg') }}" alt="">
+                                <img class="block -mt-[12px] w-full" src="{{ asset('assets/img/logo.jpeg') }}" alt="">
                             </div>
                         </a>
                     </li>
                 </ul>
             </div>
-            <div class="navbar-main py-4">
-                <ul class="p-[10px] max-h-[100vh] overflow-auto m-0 navigation-ul">
+            <div class="navbar-main bg-[#035233] py-4">
+                <ul class="p-[10px] max-h-[100vh] overflow-auto mt-10 m-0 navigation-ul">
                     <li class="relative whitespace-nowrap m-0">
                         <a href="{{ route('dashboard') }}" class="nav-item {{ set_active(['dashboard']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
                             <i data-feather="home" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Dashboard</span>
@@ -46,6 +46,11 @@
                     <li class="relative whitespace-nowrap m-0">
                         <a href="{{ route('namabahan') }}" class="nav-item {{ set_active(['namabahan']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
                             <i data-feather="archive" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Nama Bahan</span>
+                        </a>
+                    </li>
+                    <li class="relative whitespace-nowrap m-0">
+                        <a href="{{ route('eoq') }}" class="nav-item {{ set_active(['eoq']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
+                            <i data-feather="cpu" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">EOQ</span>
                         </a>
                     </li>
                     <li class="relative whitespace-nowrap m-0">
@@ -70,7 +75,7 @@
             </div>
 
         </nav>
-        <section class="content app ">
+        <section class="content app">
             <div class="wrapper-dashboard px-3 max-w-[1150px] mx-auto min-h-[90vh]">
                 <div class="content-dashbord mx-[15px] p7">
 {{-- top-navbar --}}
@@ -79,12 +84,12 @@
         <div class="">
             <div class="flex items-center max-[500px]:flex-wrap">
                 <div class="mr-auto float-left items-center flex w-full">
-                    <p class="text-slate-500 font-semibold text-lg">{{ $top->name }}</p>
+                    <p class="text-[#035233] font-semibold text-lg">{{ $top->name }}</p>
                 </div>
                 <div class=" flex w-full">
                     <div class="ml-auto flex justify-center items-center">
-                        <i data-feather="menu" class="hamburger mr-4 text-slate-500 cursor-pointer" id="hamburger"></i>
-                        <i data-feather="bell" class="text-gray-500 font-bold"></i>
+                        <i data-feather="menu" class="hamburger mr-4 text-[#035233] cursor-pointer" id="hamburger"></i>
+                        <i data-feather="bell" class="text-[#035233] font-bold"></i>
                     </div>
                     <div class="wrapper-user">
                         <div class="flex flex-col items-end mr-[0.8rem]">
@@ -94,7 +99,7 @@
                         <li class="relative flex items-center w-[45px] max-[400px]:w-[50px]">
                             <div class="block p-0 transition-all text-sm ease-nav-brand">
                                 <span class="flex justify-center items-center">
-                                    <i data-feather="user" class="text-gray-500 font-bold cursor-pointer" onclick="toggleMenu()"></i>
+                                    <i data-feather="user" class="text-[#035233] font-bold cursor-pointer" onclick="toggleMenu()"></i>
                                 </span>
                             </div>
                             <div class="sub-menu-wrap z-50" id="subMenu">

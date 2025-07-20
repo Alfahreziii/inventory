@@ -1,26 +1,34 @@
 @extends('bahanbaku/layout/bahanbaku')
 @section('content_bahanbaku')
-<h1 class="font-bold text-[#035233] text-3xl">Dashboard</h1>
+<h1 class="font-bold text-[#035233] text-3xl">EOQ</h1>
 <div class="flex  text-sm font-normal items-center mt-1">
     <a href="#" class="text-[#035233]">home</a>
     <i data-feather="chevron-right" class="text-[#035233] font-bold"></i>
-    <a href="#" class="text-[#035233]">Dashboard</a>
+    <a href="#" class="text-[#035233]">Eoq</a>
 </div>
 
 {{-- Task --}}
 <div class="garis mt-10 mb-3">
-    <div class=" pr-3 text-lg font-medium text-[#035233]">Kadaluarsa Bulan Ini</div>
+    <div class=" pr-3 text-lg font-medium text-[#035233]">EOQ</div>
 </div>
+
+@can('admin-access')
+<a href="{{ route('buat-eoq') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-[#035233]">
+    <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH EOQ
+</a>
+@endcan
 
 <div class="relative overflow-x-auto overflow-y-hidden scrollbar-hide pb-5">
     <table class="w-full text-sm text-left rtl:text-right text-[#035233] dark:text-[#035233] data-table shadow-md">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-[#035233]">
-            <tr>
-                <th class="px-6 py-3" scope="col">Code Bahan Baku</th>
-                <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
-                <th class="py-3" scope="col">Jumlah Bahan</th>
-                <th class="py-3" scope="col">Tanggal Kadaluarsa</th>
-            </tr>
+        <tr>
+            <th class="px-6 py-3" scope="col">Code Bahan Baku</th>
+            <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
+            <th class="py-3" scope="col">EOQ</th>
+            <th class="py-3" scope="col">Frekuensi Pembelian</th>
+            <th class="py-3" scope="col">TIC</th>
+            <th class="py-3" scope="col">Aksi</th>
+        </tr>
         </thead>
         <tbody>
 
@@ -28,19 +36,19 @@
     </table>
 </div>
 
-
-
 <script type="text/javascript">
 $(document).ready(function() {
     $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('kadaluarsa-bulan-ini') }}",
+        ajax: "{{ route('table_eoq') }}",
         columns: [
             { data: 'code_barang', name: 'code_barang' },
             { data: 'nama_bahan', name: 'nama_bahan' },
-            { data: 'sisa', name: 'sisa' },
-            { data: 'tgl_kadaluarsa', name: 'tgl_kadaluarsa' },
+            { data: 'nilai_eoq', name: 'nilai_eoq' },
+            { data: 'frekuensi_pembelian', name: 'frekuensi_pembelian' },
+            { data: 'nilai_tic', name: 'nilai_tic' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
         dom: '<"flex justify-between items-center mb-4"<"w-full flex justify-start space-x-4"f l>>rt<"flex justify-between items-center mt-4"ip>',
         language: {
@@ -84,8 +92,11 @@ $(document).ready(function() {
             $('.data-table tbody td:nth-child(4)').each(function() {
                 $(this).addClass('flex py-4');
             });
-            $('.data-table tbody td:nth-child(5) .detail').each(function() {
+            $('.data-table tbody td:nth-child(6) .detail').each(function() {
                 $(this).addClass('text-blue-500');
+            });
+            $('.data-table tbody td:nth-child(6) button').each(function() {
+                $(this).addClass('text-red-500');
             });
         }
     });
@@ -105,7 +116,7 @@ $(document).ready(function() {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "{{ route('delete-bahanbaku', '') }}/" + id,
+                    url: "{{ route('delete-eoq', '') }}/" + id,
                     type: "DELETE",
                     data: {
                         _token: "{{ csrf_token() }}"

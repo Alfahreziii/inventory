@@ -4,13 +4,9 @@
 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
     <div class="w-full">
         <h2 class="text-lg font-medium text-gray-900">
-            Tambah Bahan Baku
+            Tambah EOQ
         </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            Create a task for your cluster!!
-        </p>
-        <form method="post" action="{{ route('tambah-bahanbaku') }}" class="mt-6">
+        <form method="post" action="{{ route('tambah-eoq') }}" class="mt-6">
             @csrf
             <label for="id_bahan" class="block text-sm font-medium text-gray-700">Nama Bahan</label>
             <select id="id_bahan" name="id_bahan" class="w-1/2 select2" required>
@@ -21,23 +17,22 @@
             </select>
             <x-input-error class="mt-2" :messages="$errors->get('id_bahan')" />
 
-
-
             <div class="w-1/2 my-5">
-                <x-input-label for="tgl_masuk" :value="__('Tanggal Masuk')" />
-                <x-text-input id="tgl_masuk" name="tgl_masuk" type="date" class="mt-1 block w-full" required autocomplete="tgl_masuk" />
-                <x-input-error class="mt-2" :messages="$errors->get('tgl_masuk')" />
-            </div>
-            <div class="w-1/2 my-5">
-                <x-input-label for="tgl_kadaluarsa" :value="__('Tanggal Kadaluarsa')" />
-                <x-text-input id="tgl_kadaluarsa" name="tgl_kadaluarsa" type="date" class="mt-1 block w-full" required autocomplete="tgl_kadaluarsa" />
-                <x-input-error class="mt-2" :messages="$errors->get('tgl_kadaluarsa')" />
+                <x-input-label for="demand" :value="__('Demand')" />
+                <x-text-input id="demand" name="demand" type="text" class="mt-1 block w-full" required autofocus autocomplete="demand" placeholder="Masukkan Angka"/>
+                <x-input-error class="mt-2" :messages="$errors->get('demand')" />
             </div>
 
             <div class="w-1/2 my-5">
-                <x-input-label for="sisa" :value="__('Jumlah Bahan')" />
-                <x-text-input id="sisa" name="sisa" type="text" class="mt-1 block w-full" required autofocus autocomplete="sisa" placeholder="Masukkan Angka"/>
-                <x-input-error class="mt-2" :messages="$errors->get('sisa')" />
+                <x-input-label for="biaya_simpan" :value="__('Biaya Simpan')" />
+                <x-text-input id="biaya_simpan" name="biaya_simpan" type="text" class="mt-1 block w-full" required autofocus autocomplete="biaya_simpan" placeholder="Masukkan Angka"/>
+                <x-input-error class="mt-2" :messages="$errors->get('biaya_simpan')" />
+            </div>
+
+            <div class="w-1/2 my-5">
+                <x-input-label for="biaya_pesan" :value="__('Biaya Pesan')" />
+                <x-text-input id="biaya_pesan" name="biaya_pesan" type="text" class="mt-1 block w-full" required autofocus autocomplete="biaya_pesan" placeholder="Masukkan Angka"/>
+                <x-input-error class="mt-2" :messages="$errors->get('biaya_pesan')" />
             </div>
 
             <div class="flex items-start gap-4 w-1/2">

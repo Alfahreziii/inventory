@@ -4,6 +4,7 @@ use Pest\Plugins\Profile;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BahanbakuController;
+use App\Http\Controllers\EoqController;
 use App\Http\Controllers\NamabahanController;
 use App\Http\Controllers\PengeluaranController;
 
@@ -59,9 +60,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/namabahan/detail/{id}', [NamabahanController::class, 'detail'])->name('detail-namabahan');
         Route::put('/namabahan/update/{id}', [NamabahanController::class, 'update'])->name('update-namabahan');
 
+        //eoq
+        Route::get('/eoq',[EoqController::class, 'index'])->name('eoq');
+        Route::get('/buat-eoq', [EoqController::class, 'create'])->name('buat-eoq');
+        Route::post('/tambah-eoq', [EoqController::class, 'store'])->name('tambah-eoq');
+        Route::get('/eoq/edit/{id}', [EoqController::class, 'edit'])->name('edit-eoq');
+        Route::delete('/eoq/delete/{id}', [EoqController::class, 'destroy'])->name('delete-eoq');
+        Route::put('/eoq/update/{id}', [EoqController::class, 'update'])->name('update-eoq');
+        Route::get('/eoq/detail/{id}', [EoqController::class, 'detail'])->name('detail-eoq');
+
         // datatables
         Route::get('/table_bahanbaku',[BahanbakuController::class, 'datatable_bahanbaku'])->name('table_bahanbaku');
         Route::get('/table_namabahan',[NamabahanController::class, 'datatable_namabahan'])->name('table_namabahan');
+        Route::get('/table_eoq',[EoqController::class, 'datatable_eoq'])->name('table_eoq');
         Route::get('/table_riwayatpengeluaran',[PengeluaranController::class, 'datatable_riwayatpengeluaran'])->name('table_riwayatpengeluaran');
         Route::get('/table_riwayatlogin',[ProfileController::class, 'datatable_riwayatlogin'])->name('table_riwayatlogin');
         Route::get('/bahanbaku/detail-group-datatable/{id}', [BahanbakuController::class, 'datatableDetailGroup'])->name('datatable-detail-group-bahanbaku');

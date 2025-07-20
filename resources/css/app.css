@@ -565,15 +565,15 @@ input::placeholder {
     -ms-touch-action: auto;
 }
 .nav-item.actives {
-    @apply bg-green-300 text-white;
+    @apply text-yellow-500;
 }
 .nav-item {
     @apply transition-all duration-300;
-    color: #8494a7;
+    color: white;
     border-radius: 0.267rem;
 }
 .nav-item:hover{
-    @apply text-green-500;
+    @apply text-yellow-500;
 }
 .content-menu {
     list-style: none;
