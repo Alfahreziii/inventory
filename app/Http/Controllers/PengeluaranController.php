@@ -10,6 +10,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\RiwayatPengeluaran;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PengeluaranController extends Controller
 {
@@ -51,7 +52,18 @@ public function cetakPDF(Request $request)
             ->select('riwayat_pengeluarans.id', 'tgl_keluar', 'jumlah', 'namabahans.nama_bahan', 'namabahans.code_barang', 'users.name')
             ->get();// Tambahkan 'id'
 
-            return DataTables::of($data)->make(true);
+            return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $deleteBtn = '';
+                if (Gate::allows('admin-access')) {
+                    $deleteBtn = '<button class="delete-btn text-sm font-bold ml-3" data-id="'.$row->id.'">Delete</button>';
+                }
+
+                return $deleteBtn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
         }
 
         return response()->json(['message' => 'Invalid request'], 400);
@@ -68,38 +80,47 @@ public function cetakPDF(Request $request)
         return view ('bahanbaku/pengeluaran/create', compact('top', 'data'));
     }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'id_bahan' => ['required'],
-        'jumlah' => ['required', 'integer', 'min:1'],
-        'tgl_keluar' => ['required'],
-        'user_id' => ['required'],
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'id_bahan' => ['required'],
+            'jumlah' => ['required', 'integer', 'min:1'],
+            'tgl_keluar' => ['required'],
+            'user_id' => ['required'],
+        ]);
 
-    $id_bahan = $request->id_bahan;
-    $jumlahKeluar = $request->jumlah;
+        $id_bahan = $request->id_bahan;
+        $jumlahKeluar = $request->jumlah;
 
-    // Ambil total stok yang tersedia untuk bahan ini
-    $totalSisa = BahanBaku::where('id_bahan', $id_bahan)
-        ->where('sisa', '>', 0)
-        ->sum('sisa');
+        // Ambil total stok yang tersedia untuk bahan ini
+        $totalSisa = BahanBaku::where('id_bahan', $id_bahan)
+            ->where('sisa', '>', 0)
+            ->sum('sisa');
 
-    // Validasi: jangan izinkan melebihi stok
-    if ($totalSisa < $jumlahKeluar) {
-        return back()->withErrors(['jumlah' => 'Jumlah pengeluaran melebihi stok yang tersedia.']);
+        // Validasi: jangan izinkan melebihi stok
+        if ($totalSisa < $jumlahKeluar) {
+            return back()->withErrors(['jumlah' => 'Jumlah pengeluaran melebihi stok yang tersedia.']);
+        }
+
+        // Tidak perlu kurangi stok, hanya simpan pengeluaran
+        RiwayatPengeluaran::create([
+            'id_bahan' => $id_bahan,
+            'jumlah' => $jumlahKeluar,
+            'tgl_keluar' => $request->tgl_keluar,
+            'user_id' => $request->user_id,
+        ]);
+
+        return redirect('riwayat-pengeluaran')->with('success', 'Pengeluaran berhasil dicatat.');
     }
 
-    // Tidak perlu kurangi stok, hanya simpan pengeluaran
-    RiwayatPengeluaran::create([
-        'id_bahan' => $id_bahan,
-        'jumlah' => $jumlahKeluar,
-        'tgl_keluar' => $request->tgl_keluar,
-        'user_id' => $request->user_id,
-    ]);
+    public function destroy($id) {
+        $riwayat = RiwayatPengeluaran::find($id);
 
-    return redirect('riwayat-pengeluaran')->with('success', 'Pengeluaran berhasil dicatat.');
-}
+        if (!$riwayat) {
+            return response()->json(['message' => 'Data tidak ditemukan!'], 404);
+        }
 
-
+        $riwayat->delete();
+        return response()->json(['message' => 'Data berhasil dihapus!']);
+    }
 }

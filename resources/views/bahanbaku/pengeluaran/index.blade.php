@@ -75,6 +75,7 @@
                 <th class="px-6 py-3" scope="col">Nama Bahan Baku</th>
                 <th class="py-3" scope="col">Jumlah Bahan Keluar</th>
                 <th class="py-3" scope="col">Tanggal Keluar</th>
+                <th class="py-3" scope="col">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -105,6 +106,7 @@ $(document).ready(function() {
             { data: 'nama_bahan', name: 'nama_bahan' },
             { data: 'jumlah', name: 'jumlah' },
             { data: 'tgl_keluar', name: 'tgl_keluar' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
         ],
         dom: '<"flex justify-between items-center mb-4"<"w-full flex justify-start space-x-4"f l>>rt<"flex justify-between items-center mt-4"ip>',
         language: {
@@ -151,14 +153,8 @@ $(document).ready(function() {
             $('.data-table tbody td:nth-child(4)').each(function() {
                 $(this).addClass('flex py-4'); // Tambahkan background dan tengah-kan teks
             });
-            $('.data-table tbody td:nth-child(5) a').each(function() {
-                $(this).addClass('text-[#035233]'); // Tambahkan background dan tengah-kan teks
-            });
-            $('.data-table tbody td:nth-child(5) button').each(function() {
+            $('.data-table tbody td:nth-child(6) button').each(function() {
                 $(this).addClass('text-red-500'); // Tambahkan background dan tengah-kan teks
-            });
-            $('.data-table tbody td:nth-child(5) .detail').each(function() {
-                $(this).addClass('text-blue-500'); // Tambahkan background dan tengah-kan teks
             });
         }
     });
@@ -178,7 +174,7 @@ $(document).ready(function() {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "{{ route('delete-bahanbaku', '') }}/" + id,
+                    url: "{{ route('delete-riwayatpengeluaran', '') }}/" + id,
                     type: "DELETE",
                     data: {
                         _token: "{{ csrf_token() }}"

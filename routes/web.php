@@ -52,7 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/riwayat-pengeluaran',[PengeluaranController::class, 'index'])->name('riwayat-pengeluaran');
         Route::get('/buat-pengeluaran', [PengeluaranController::class, 'create'])->name('buat-pengeluaran');
         Route::post('/tambah-pengeluaran', [PengeluaranController::class, 'store'])->name('tambah-pengeluaran');
-        Route::get('/riwayat-pengeluaran/edit/{id}', [PengeluaranController::class, 'edit'])->name('edit-riwayatpengeluaran');
+        Route::delete('/riwayat-pengeluaran/delete/{id}', [PengeluaranController::class, 'destroy'])->name('delete-riwayatpengeluaran');
 
         //nama bahan
         Route::get('/namabahan',[NamabahanController::class, 'index'])->name('namabahan');

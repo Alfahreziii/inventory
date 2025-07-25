@@ -30,62 +30,67 @@ class NamabahanController extends Controller
         $data = Namabahan::select('id', 'nama_bahan', 'harga')
         ->get();
 
+
         return view('bahanbaku/bahan/bahan', compact('top','data'));
     }
 
-public function datatable_namabahan(Request $request)
-{
-    if ($request->ajax()) {
-        $data = Namabahan::leftJoin('bahanbakus', 'namabahans.id', '=', 'bahanbakus.id_bahan')
-            ->leftJoin('riwayat_pengeluarans', 'namabahans.id', '=', 'riwayat_pengeluarans.id_bahan')
-            ->select(
-                'namabahans.id',
-                'namabahans.nama_bahan',
-                'namabahans.harga',
-                'namabahans.suplier',
-                'namabahans.code_barang',
-                'namabahans.no_hp_suplier',
-                'namabahans.alamat_suplier',
-                DB::raw('COALESCE(SUM(bahanbakus.sisa), 0) - COALESCE(SUM(riwayat_pengeluarans.jumlah), 0) AS jumlah_bahan')
-            )
-            ->groupBy(
-                'namabahans.id',
-                'namabahans.nama_bahan',
-                'namabahans.harga',
-                'namabahans.suplier',
-                'namabahans.code_barang',
-                'namabahans.no_hp_suplier',
-                'namabahans.alamat_suplier'
-            )
-            ->get();
+    public function datatable_namabahan(Request $request)
+    {
+        if ($request->ajax()) {
+            // Subquery untuk total sisa
+            $bahanbakuSub = DB::table('bahanbakus')
+                ->select('id_bahan', DB::raw('SUM(sisa) as total_sisa'))
+                ->groupBy('id_bahan');
 
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->editColumn('harga', function ($row) {
-                return 'Rp ' . number_format($row->harga, 0, ',', '.');
-            })
-            ->editColumn('jumlah_bahan', function ($row) {
-                return $row->jumlah_bahan >= 0 ? $row->jumlah_bahan : 0;
-            })
-            ->addColumn('action', function ($row) {
-                $editUrl = route('edit-namabahan', ['id' => $row->id]);
-                $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold text-[#035233]">Edit</a>';
+            // Subquery untuk total pengeluaran
+            $pengeluaranSub = DB::table('riwayat_pengeluarans')
+                ->select('id_bahan', DB::raw('SUM(jumlah) as total_keluar'))
+                ->groupBy('id_bahan');
 
-                $deleteBtn = '';
-                if (Gate::allows('admin-access')) {
-                    $deleteBtn = '<button class="delete-btn text-sm font-bold ml-3" data-id="'.$row->id.'">Delete</button>';
-                }
+            // Join dengan subquery
+            $data = Namabahan::leftJoinSub($bahanbakuSub, 'bahanbakus', function ($join) {
+                    $join->on('namabahans.id', '=', 'bahanbakus.id_bahan');
+                })
+                ->leftJoinSub($pengeluaranSub, 'riwayat_pengeluarans', function ($join) {
+                    $join->on('namabahans.id', '=', 'riwayat_pengeluarans.id_bahan');
+                })
+                ->select(
+                    'namabahans.id',
+                    'namabahans.nama_bahan',
+                    'namabahans.harga',
+                    'namabahans.suplier',
+                    'namabahans.code_barang',
+                    'namabahans.no_hp_suplier',
+                    'namabahans.alamat_suplier',
+                    DB::raw('COALESCE(bahanbakus.total_sisa, 0) - COALESCE(riwayat_pengeluarans.total_keluar, 0) AS jumlah_bahan')
+                )
+                ->get();
 
-                return $editBtn . $deleteBtn;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('harga', function ($row) {
+                    return 'Rp ' . number_format($row->harga, 0, ',', '.');
+                })
+                ->editColumn('jumlah_bahan', function ($row) {
+                    return $row->jumlah_bahan >= 0 ? $row->jumlah_bahan : 0;
+                })
+                ->addColumn('action', function ($row) {
+                    $editUrl = route('edit-namabahan', ['id' => $row->id]);
+                    $editBtn = '<a href="'.$editUrl.'" class="text-sm font-bold text-[#035233]">Edit</a>';
+
+                    $deleteBtn = '';
+                    if (Gate::allows('admin-access')) {
+                        $deleteBtn = '<button class="delete-btn text-sm font-bold ml-3" data-id="'.$row->id.'">Delete</button>';
+                    }
+
+                    return $editBtn . $deleteBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return response()->json(['message' => 'Invalid request'], 400);
     }
-
-    return response()->json(['message' => 'Invalid request'], 400);
-}
-
-
 
     public function create(){
         $top = DB::table('users')
