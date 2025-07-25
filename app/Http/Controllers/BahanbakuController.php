@@ -16,15 +16,17 @@ use Yajra\DataTables\Facades\DataTables;
 class BahanbakuController extends Controller
 {
 
-    public function cetakPDF(Request $request)
+public function cetakPDF(Request $request)
 {
     $request->validate([
         'bulan' => 'required|integer|min:1|max:12',
         'tahun' => 'required|integer',
+        'deskripsi' => 'nullable|string'
     ]);
 
     $bulan = $request->bulan;
     $tahun = $request->tahun;
+    $deskripsi = $request->deskripsi;
 
     $data = Bahanbaku::join('namabahans', 'bahanbakus.id_bahan', '=', 'namabahans.id')
         ->select(
@@ -40,11 +42,13 @@ class BahanbakuController extends Controller
     $pdf = PDF::loadView('pdf.bahanbaku', [
         'data' => $data,
         'bulan' => Carbon::create()->month($bulan)->locale('id')->monthName,
-        'tahun' => $tahun
+        'tahun' => $tahun,
+        'deskripsi' => $deskripsi
     ]);
 
     return $pdf->stream("Laporan-Bahanbaku-$bulan-$tahun.pdf");
 }
+
 
     public function index(){
         $top = DB::table('users')
@@ -139,6 +143,9 @@ class BahanbakuController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
+                ->editColumn('harga_total', function ($row) {
+                    return 'Rp ' . number_format($row->harga_total, 0, ',', '.');
+                })
                 ->addColumn('action', function ($row) {
                         $editUrl = route('edit-bahanbaku', ['id' => $row->id]);
                         $detailUrl = route('detail-bahanbaku', ['id' => $row->id]);
@@ -172,30 +179,39 @@ class BahanbakuController extends Controller
         return view ('bahanbaku/bahanbaku/create', compact('top', 'data'));
     }
 
-    public function store(request $request){
-
+    public function store(Request $request)
+    {
         $request->validate([
             'id_bahan' => ['required'],
             'tgl_kadaluarsa' => ['required'],
             'tgl_masuk' => ['required'],
             'sisa' => ['required'],
+            'nota' => ['nullable', 'image', 'max:2048'] // max 2MB
         ]);
 
         $harga = DB::table('namabahans')->where('id', $request->id_bahan)->value('harga');
-
         $harga_total = $request->sisa * $harga;
 
-        $data['id_bahan'] = $request->id_bahan;
-        $data['tgl_kadaluarsa'] = $request->tgl_kadaluarsa;
-        $data['tgl_masuk'] = $request->tgl_masuk;
-        $data['sisa'] = $request->sisa;
-        $data['harga_total'] = $harga_total;
+        $data = [
+            'id_bahan' => $request->id_bahan,
+            'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
+            'tgl_masuk' => $request->tgl_masuk,
+            'sisa' => $request->sisa,
+            'harga_total' => $harga_total
+        ];
 
+        if ($request->hasFile('nota')) {
+            $image = $request->file('nota');
+            $filename = time().'_'.$image->getClientOriginalName();
+            $path = $image->storeAs('nota', $filename, 'public');
+            $data['nota'] = $path;
+        }
 
         Bahanbaku::create($data);
 
         return redirect('bahanbaku');
     }
+
 
     public function detail(request $request,$id){
         $top = DB::table('users')
@@ -205,7 +221,7 @@ class BahanbakuController extends Controller
 
         $data = Bahanbaku::join('namabahans', 'bahanbakus.id_bahan', '=', 'namabahans.id')
         ->select('bahanbakus.id', 'tgl_kadaluarsa', 'tgl_masuk', 'nama_bahan', 'harga',
-        'sisa', 'harga_total')
+        'sisa', 'harga_total', 'nota')
         ->where('bahanbakus.id' , '=', $id)
         ->first();
 
@@ -221,7 +237,7 @@ class BahanbakuController extends Controller
 
         $data = Bahanbaku::join('namabahans', 'bahanbakus.id_bahan', '=', 'namabahans.id')
         ->select('bahanbakus.id', 'tgl_kadaluarsa', 'tgl_masuk', 'nama_bahan', 'harga',
-        'sisa', 'harga_total', 'namabahans.id as id_bahan')
+        'sisa', 'harga_total', 'namabahans.id as id_bahan', 'nota')
         ->where('bahanbakus.id' , '=', $id)
         ->first();
 
@@ -230,28 +246,39 @@ class BahanbakuController extends Controller
         return view('bahanbaku/bahanbaku/edit',compact('data', 'top', 'namabahan'));
     }
 
-    public function update(request $request,$id) {
-        $request->validate([
-            'id_bahan' => ['required'],
-            'tgl_kadaluarsa' => ['required'],
-            'tgl_masuk' => ['required'],
-            'sisa' => ['required'],
-        ]);
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'id_bahan' => ['required'],
+        'tgl_kadaluarsa' => ['required'],
+        'tgl_masuk' => ['required'],
+        'sisa' => ['required'],
+        'nota' => ['nullable', 'image', 'max:2048']
+    ]);
 
-        $harga = DB::table('namabahans')->where('id', $request->id_bahan)->value('harga');
+    $harga = DB::table('namabahans')->where('id', $request->id_bahan)->value('harga');
+    $harga_total = $request->sisa * $harga;
 
-        $harga_total = $request->sisa * $harga;
+    $data = [
+        'id_bahan' => $request->id_bahan,
+        'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
+        'tgl_masuk' => $request->tgl_masuk,
+        'sisa' => $request->sisa,
+        'harga_total' => $harga_total
+    ];
 
-        $data['id_bahan'] = $request->id_bahan;
-        $data['tgl_kadaluarsa'] = $request->tgl_kadaluarsa;
-        $data['tgl_masuk'] = $request->tgl_masuk;
-        $data['sisa'] = $request->sisa;
-        $data['harga_total'] = $harga_total;
-
-        Bahanbaku::where('id', '=', $id)->update($data);
-
-        return redirect('bahanbaku');
+    if ($request->hasFile('nota')) {
+        $image = $request->file('nota');
+        $filename = time().'_'.$image->getClientOriginalName();
+        $path = $image->storeAs('nota', $filename, 'public');
+        $data['nota'] = $path;
     }
+
+    Bahanbaku::where('id', '=', $id)->update($data);
+
+    return redirect('bahanbaku');
+}
+
 
     public function destroy($id) {
         $bahanbaku = Bahanbaku::find($id);

@@ -20,6 +20,7 @@
 </button>
 
 <!-- Modal -->
+<!-- Modal -->
 <div
   id="modalCetak"
   class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center hidden"
@@ -46,12 +47,20 @@
           @endfor
         </select>
       </div>
+
+      <!-- Tambahkan Deskripsi -->
+      <div class="mb-4">
+        <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+        <textarea name="deskripsi" id="deskripsi" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"></textarea>
+      </div>
+
       <div class="flex justify-end">
         <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Cetak</button>
       </div>
     </form>
   </div>
 </div>
+
 
 
 

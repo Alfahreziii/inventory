@@ -20,6 +20,7 @@ class Bahanbaku extends Model
         'id_bahan',
         'sisa',
         'harga_total',
+        'nota', // Tambahkan kolom nota
     ];
 
     // Akses format tanggal untuk tgl_kadaluarsa

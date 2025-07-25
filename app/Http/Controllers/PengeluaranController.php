@@ -21,24 +21,27 @@ class PengeluaranController extends Controller
 
         return view('bahanbaku/pengeluaran/index',compact('top'));
     }
-    public function cetakPDF(Request $request)
-    {
-        $bulan = $request->bulan;
-        $tahun = $request->tahun;
+public function cetakPDF(Request $request)
+{
+    $bulan = $request->bulan;
+    $tahun = $request->tahun;
+    $deskripsi = $request->deskripsi;
 
-        $pengeluarans = RiwayatPengeluaran::whereMonth('tgl_keluar', $bulan)
-            ->whereYear('tgl_keluar', $tahun)
-            ->with(['namabahan', 'user']) // gunakan relasi 'namabahan' & 'user' jika ada
-            ->get();
+    $pengeluarans = RiwayatPengeluaran::whereMonth('tgl_keluar', $bulan)
+        ->whereYear('tgl_keluar', $tahun)
+        ->with(['namabahan', 'user'])
+        ->get();
 
-        $pdf = Pdf::loadView('pdf.pengeluaran', [
-            'pengeluarans' => $pengeluarans,
-            'bulan' => $bulan,
-            'tahun' => $tahun,
-        ])->setPaper('A4', 'portrait');
+    $pdf = Pdf::loadView('pdf.pengeluaran', [
+        'pengeluarans' => $pengeluarans,
+        'bulan' => $bulan,
+        'tahun' => $tahun,
+        'deskripsi' => $deskripsi
+    ])->setPaper('A4', 'portrait');
 
-        return $pdf->stream("pengeluaran_{$bulan}_{$tahun}.pdf");
-    }
+    return $pdf->stream("pengeluaran_{$bulan}_{$tahun}.pdf");
+}
+
 
 
     public function datatable_riwayatpengeluaran(Request $request){

@@ -1,15 +1,15 @@
 @extends('bahanbaku/layout/bahanbaku')
 @section('content_bahanbaku')
-<h1 class="font-bold text-[#035233] text-3xl">BAHAN BAKU</h1>
+<h1 class="font-bold text-[#035233] text-3xl">PENGELUARAN</h1>
 <div class="flex  text-sm font-normal items-center mt-1">
-    <a href="#" class="text-[#035233]">home</a>
+    <a href="#" class="text-[#035233]">Pengeluaran</a>
     <i data-feather="chevron-right" class="text-[#035233] font-bold"></i>
-    <a href="#" class="text-[#035233]">Bahan Baku</a>
+    <a href="#" class="text-[#035233]">Pengeluaran</a>
 </div>
 
 {{-- Task --}}
 <div class="garis mt-10 mb-3">
-    <div class=" pr-3 text-lg font-medium text-[#035233]">BAHAN BAKU</div>
+    <div class=" pr-3 text-lg font-medium text-[#035233]">Pengeluaran</div>
 </div>
 
 <!-- Tombol Cetak -->
@@ -47,6 +47,12 @@
           @endfor
         </select>
       </div>
+      <!-- Tambahkan di bawah input tahun -->
+<div class="mb-4">
+  <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+  <textarea name="deskripsi" id="deskripsi" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"></textarea>
+</div>
+
       <div class="flex justify-end">
         <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Cetak</button>
       </div>

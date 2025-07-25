@@ -14,6 +14,11 @@
     <h2>Laporan Pengeluaran Bahan Baku</h2>
     <p>Bulan: {{ DateTime::createFromFormat('!m', $bulan)->format('F') }} - Tahun: {{ $tahun }}</p>
 
+    @if(!empty($deskripsi))
+    <p><strong>Deskripsi:</strong> {{ $deskripsi }}</p>
+@endif
+
+
     <table>
         <thead>
             <tr>

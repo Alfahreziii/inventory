@@ -16,6 +16,12 @@
 </head>
 <body>
     <h2>Laporan Masuk Bahan Baku - {{ $bulan }} {{ $tahun }}</h2>
+
+@if (!empty($deskripsi))
+    <p><strong>Deskripsi:</strong> {{ $deskripsi }}</p>
+@endif
+
+
     <table>
         <thead>
             <tr>

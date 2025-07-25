@@ -40,6 +40,12 @@
                 <x-text-input  readonly id="harga_total" name="harga_total" type="text" class="mt-1 block w-full" required autofocus autocomplete="harga_total" placeholder="Masukkan Angka" value=" {{ $data->harga_total }}"/>
                 <x-input-error class="mt-2" :messages="$errors->get('harga_total')" />
             </div>
+            @if(!empty($data->nota))
+                <div class="mt-4">
+                    <label class="block font-semibold">Nota:</label>
+                    <img src="{{ asset('storage/' . $data->nota) }}" alt="Nota" style="max-width: 300px;">
+                </div>
+            @endif
 
 
         </div>

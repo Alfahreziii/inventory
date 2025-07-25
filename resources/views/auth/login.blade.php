@@ -10,19 +10,18 @@
 
     @vite('resources/css/app.css', 'resources/js/app.js')
 </head>
-<body class="bg-login" style="background-image: url('{{ asset('assets/img/bg-login.jpg') }}');">
-     <div class="form-login items-center flex flex-col shadow-2xl backdrop-blur-xl border border-white/30 bg-gradient-to-r from-white/0 from-13% to-green-700/70 w-[529px] max-[1300px]:w-[480px] px-10 rounded-[16px] py-8 my-40">
-        <img src="src/image/logo.png" alt="" class="w-[150px]">
-        <div class="mt-8 mb-5">
-            <h1 class="text-center text-4xl max-[1300px]:text-3xl font-raleway text-green-800 font-bold">Masuk</h1>
-            <p class="font-raleway text-white text-sm font-normal mt-2">Selamat datang kembali!</p>
+<body class="bg-[#00522a] bg-login" style="background-image: url('{{ asset('assets/img/bg-login.png') }}');">
+     <div class="form-login items-center ml-auto flex flex-col w-[529px] max-[1300px]:w-[480px] px-10 rounded-[16px] py-8 h-max mt-14">
+        <div class="mt-8 mb-5 w-full">
+            <h1 class="text-right text-4xl max-[1300px]:text-3xl font-raleway text-white font-bold">Login</h1>
+            <p class="font-raleway text-white text-right text-sm font-normal mt-2">Selamat datang kembali!</p>
         </div>
         <x-auth-session-status class="mb-4" :status="session('status')" />
         <form action="{{ route('login') }}" method="POST" class="w-full">
             @csrf
             <!-- Email -->
             <h3 class="text-white text-base font-raleway font-medium mb-2">Email</h3>
-            <input id="email" class="w-full border rounded-full bg-transparent h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-green-800 px-5 placeholder-lato max-[1300px]:text-sm text-base" type="email" name="email" required autofocus autocomplete="Email"  class="input-field" placeholder="Email"/>
+            <input id="email" class="w-full border bg-[#ffd41c] rounded-full h-[45px] text-white px-5 placeholder-lato max-[1300px]:text-sm text-base" type="email" name="email" required autofocus autocomplete="Email"  class="input-field" placeholder="Email"/>
 
             <!-- Kata Sandi -->
             <h3 class="text-white text-base font-raleway font-medium mb-2 mt-8">Kata Sandi</h3>
@@ -30,7 +29,7 @@
                 <input id="password"
                 type="password"
                 name="password"
-                required autocomplete="current-password" class="w-full border rounded-full bg-transparent h-[45px] text-white border-[#E7E3FC3B]/35 placeholder-green-800 px-5 placeholder-lato max-[1300px]:text-sm text-base pr-12" placeholder="Password"/>
+                required autocomplete="current-password" class="w-full border rounded-full h-[45px] text-white bg-[#ffd41c] px-5 placeholder-lato max-[1300px]:text-sm text-base pr-12" placeholder="Password"/>
 
                 <!-- Tombol Icon Mata -->
                 <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-4 flex items-center">
@@ -46,15 +45,15 @@
             </div>
 
             <div class="flex">
-                <h1 class="text-green-800 mt-3 font-medium font-raleway mr-auto">Belum punya akun? <a href="{{ route('register') }}" class="text-white">Daftar</a></h1>
+                <h1 class="text-white mt-3 font-base font-raleway mr-auto">Belum punya akun? <a href="{{ route('register') }}" class="text-white font-bold">Daftar</a></h1>
                 @if (Route::has('password.request'))
-                <a class="mt-2 font-raleway text-green-800 font-medium" href="{{ route('password.request') }}">
+                <a class="mt-2 font-raleway text-white font-medium" href="{{ route('password.request') }}">
                     {{ __('Lupa Kata Sandi?') }}
                 </a>
                 @endif
             </div>
 
-            <button type="submit" class="mt-8 font-raleway font-semibold text-white bg-green-800 border border-[#E7E3FC3B]/35 rounded-full flex justify-center items-center text-base max-[1300px]:text-sm h-[55px] w-full">
+            <button type="submit" class="mt-8 font-raleway font-semibold text-[#5e2c15] bg-[#ffd41c] rounded-full flex justify-center items-center text-base max-[1300px]:text-sm h-[55px] w-full">
                 Masuk
             </button>
         </form>
