@@ -12,6 +12,39 @@
     <div class=" pr-3 text-lg font-medium text-[#035233]">EOQ</div>
 </div>
 
+<!-- Tombol Cetak -->
+<button
+  onclick="openModal()"
+  class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+>
+  Cetak PDF
+</button>
+
+<!-- Modal -->
+<!-- Modal -->
+<div
+  id="modalCetak"
+  class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center hidden"
+>
+  <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">Cetak PDF</h2>
+      <button onclick="closeModal()" class="text-gray-600 hover:text-red-500 text-2xl">&times;</button>
+    </div>
+    <form action="{{ route('eoq.cetak') }}" method="GET" target="_blank">
+      <!-- Tambahkan Deskripsi -->
+      <div class="mb-4">
+        <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
+        <textarea name="deskripsi" id="deskripsi" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"></textarea>
+      </div>
+
+      <div class="flex justify-end">
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Cetak</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 @can('admin-access')
 <a href="{{ route('buat-eoq') }}" class="ml-auto shadow flex mb-5 mt-3 justify-center items-center text-sm py-3 font-semibold rounded text-white bg-[#035233]">
     <i data-feather="plus" width="24px" height="24px" class="mr-1"></i> TAMBAH EOQ
@@ -36,6 +69,15 @@
     </table>
 </div>
 
+<script>
+  function openModal() {
+    document.getElementById('modalCetak').classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('modalCetak').classList.add('hidden');
+  }
+</script>
 <script type="text/javascript">
 $(document).ready(function() {
     $('.data-table').DataTable({

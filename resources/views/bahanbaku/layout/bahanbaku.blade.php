@@ -63,6 +63,11 @@
                             <i data-feather="book-open" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Riwayat Login</span>
                         </a>
                     </li>
+                    <li class="relative whitespace-nowrap m-0">
+                        <a href="{{ route('role') }}" class="nav-item {{ set_active(['role']) }} flex items-center overflow-hidden px-4 py-[9px] my-3 text-ellipsis">
+                            <i data-feather="book-open" class="w-[20px]"></i><span class="ml-[15px] text-base font-medium">Role Management</span>
+                        </a>
+                    </li>
                 </ul>
                 <ul class="mt-16">
                     <form method="POST" action="{{ route('logout') }}" class="relative whitespace-nowrap m-0 mt-auto">

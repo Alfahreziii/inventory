@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Namabahan;
@@ -19,6 +20,35 @@ class EoqController extends Controller
             ->first();
 
         return view('bahanbaku/eoq/index', compact('top'));
+    }
+    public function cetakPDF(Request $request)
+    {
+        $top = DB::table('users')
+            ->select('users.name')
+            ->where('users.id', '=', Auth::user()->id)
+            ->first();
+        $deskripsi = $request->deskripsi;
+        $data = Eoq::join('namabahans', 'eoqs.id_bahan', '=', 'namabahans.id')
+            ->select(
+                'eoqs.id',
+                'namabahans.code_barang',
+                'namabahans.nama_bahan',
+                'eoqs.demand',
+                'eoqs.biaya_pesan',
+                'eoqs.biaya_simpan',
+                DB::raw('ROUND(SQRT((2 * eoqs.demand * eoqs.biaya_pesan) / eoqs.biaya_simpan), 2) as nilai_eoq'),
+                DB::raw('ROUND(((eoqs.demand / SQRT((2 * eoqs.demand * eoqs.biaya_pesan) / eoqs.biaya_simpan)) * eoqs.biaya_pesan) + ((SQRT((2 * eoqs.demand * eoqs.biaya_pesan) / eoqs.biaya_simpan) / 2) * eoqs.biaya_simpan), 2) as nilai_tic'),
+                DB::raw('ROUND(eoqs.demand / SQRT((2 * eoqs.demand * eoqs.biaya_pesan) / eoqs.biaya_simpan), 2) as frekuensi_pembelian')
+            )
+            ->get();
+
+        $pdf = Pdf::loadView('pdf.eoq', [
+            'data' => $data,
+            'top' => $top,
+            'deskripsi' => $deskripsi,
+        ])->setPaper('A4', 'landscape');
+
+        return $pdf->stream('laporan_eoq.pdf');
     }
 
     public function create(){

@@ -104,7 +104,7 @@ public function cetakPDF(Request $request)
                     'namabahans.id as bahan_id',
                     'nama_bahan',
                     'code_barang',
-                    DB::raw('SUM(sisa) as total_sisa')
+                    DB::raw('SUM(sisa) as total_sisa'),
                 )
                 ->groupBy('namabahans.id', 'nama_bahan')
                 ->get();

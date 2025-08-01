@@ -7,6 +7,7 @@ use App\Http\Controllers\BahanbakuController;
 use App\Http\Controllers\EoqController;
 use App\Http\Controllers\NamabahanController;
 use App\Http\Controllers\PengeluaranController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,10 +70,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/eoq/update/{id}', [EoqController::class, 'update'])->name('update-eoq');
         Route::get('/eoq/detail/{id}', [EoqController::class, 'detail'])->name('detail-eoq');
 
+        //role
+        Route::get('/role',[RoleController::class, 'index'])->name('role');
+        Route::get('/role/edit/{id}', [RoleController::class, 'edit'])->name('edit-role');
+        Route::put('/role/update/{id}', [RoleController::class, 'update'])->name('update-role');
+
         // datatables
         Route::get('/table_bahanbaku',[BahanbakuController::class, 'datatable_bahanbaku'])->name('table_bahanbaku');
         Route::get('/table_namabahan',[NamabahanController::class, 'datatable_namabahan'])->name('table_namabahan');
         Route::get('/table_eoq',[EoqController::class, 'datatable_eoq'])->name('table_eoq');
+        Route::get('/table_role',[RoleController::class, 'datatable_role'])->name('table_role');
         Route::get('/table_riwayatpengeluaran',[PengeluaranController::class, 'datatable_riwayatpengeluaran'])->name('table_riwayatpengeluaran');
         Route::get('/table_riwayatlogin',[ProfileController::class, 'datatable_riwayatlogin'])->name('table_riwayatlogin');
         Route::get('/bahanbaku/detail-group-datatable/{id}', [BahanbakuController::class, 'datatableDetailGroup'])->name('datatable-detail-group-bahanbaku');
@@ -81,6 +88,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         //export
         Route::get('/bahanbaku/cetak', [BahanbakuController::class, 'cetakPDF'])->name('bahanbaku.cetak');
         Route::get('/cetak-pengeluaran', [PengeluaranController::class, 'cetakPDF'])->name('cetak-pengeluaran');
+        Route::get('/cetak-eoq', [EoqController::class, 'cetakPDF'])->name('eoq.cetak');
 
 });
 
